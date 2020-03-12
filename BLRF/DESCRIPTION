@@ -15,5 +15,7 @@ Imports:
     tree,
     stats,
     dplyr,
-    purrr
+    purrr,
+    furrr,
+    future
 RoxygenNote: 7.0.2
