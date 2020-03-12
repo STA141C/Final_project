@@ -24,23 +24,25 @@ parallel_implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var,
                              ~{
                                subindex <- sample(n, b, replace = F)
                                subsample <- data[subindex,]
-                               tree_implement(formula, subsample, r, n, n_var)
 
-                              }
+                               map(seq_len(r),
+                                   ~{
+                                     weight <- rmultinom(1, n, rep(1, nrow(subsample)))
+                                     #one_tree(formula, subsample, weight, n_var)
+                                     var <- colnames(subsample)[!colnames(subsample) %in% as.character(formula[2])]
+                                     list_var <- sample(var, n_var, replace = F)
+                                     f <- stats::as.formula(paste(formula[2], '~', paste(list_var, collapse = '+')))
+                                     Tree <- tree::tree(f, data = subsample, weights = weight, wts = T)
+                                     Tree
+                                   }
+                                   )
+                               #tree_implement(formula, subsample, r, n, n_var)
+
+                              },
+                      .options = future_options(scheduling = FALSE)
 
                       )
-#  ### test
-#  plan(multiprocess, workers = worker)
-#
-#  Trees <- future_map(seq_len(s),
-#
-#                      ~{
-#                        map(seq_len(2),
-#                            ~tree(formula, subsample))
-#
-#                      }
-#
-#  )
+
 
   return (Trees)
 }
