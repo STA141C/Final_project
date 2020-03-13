@@ -9,15 +9,16 @@
 #' @param s numeric. Number of subsamples.
 #' @param r numeric. Number of trees.
 #' @param n_var numeric. Number of variables to subset to build one tree.
+#' @param core numeric. Number of core.
 #'
 #' @return
 #' @export
 #'
 #' @examples
-implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var){
+implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core){
   n <- nrow(data)
   Subs <- subsampling(data, gamma, b, s)
   Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var))
-  misclass <- all_eval(Trees)
-  return()
+  #misclass <- all_eval(Trees)
+  return(Trees)
 }
