@@ -15,31 +15,26 @@
 #' @export
 #'
 #' @examples
-implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
+
+implement_BLRF_2 <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
   n <- nrow(data)
   x_var <- strsplit(as.character(formula[3]), split = "[ ]\\+[ ]")
-  data <- data[, x_var[[1]]]
+  if(x_var != '.') {
+    data <- data[, c(as.character(formula[2]), x_var[[1]])]
+  }
+
+  Tree_object <- list()
   Subs <- subsampling(data, gamma, b, s)
   if(core == 1){
     Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var))
   }
   else if(core > 0){
 
-    plan(multiprocess, workers = core)
+   plan(multiprocess, workers = core)
+   Trees <- furrr::future_map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var),
+                              .options = future_options(scheduling = FALSE))
 
-    Trees <- future_map(Subs,
-
-                        ~{
-
-                          ~tree_implement(formula, subsample = ., r, n, n_var)
-
-                         },
-                        .options = future_options(scheduling = FALSE)
-
-                       )
-
-
-  }
+    }
   #misclass <- all_eval(Trees)
   return(Trees)
 }
