@@ -33,7 +33,6 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
     Trees <- furrr::future_map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var),
                                .options = future_options(scheduling = FALSE))
   }
-  return(Trees)
   y <- as.character(formula[2])
   if(class(iris$Species) == "factor"){
     label <- prediction_tree_categorical(Trees, data, type = "label")
@@ -48,8 +47,11 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
   else if(class(iris$Species) == "numeric"){
     fitted <- prediction_tree_regression(Trees, data)
 
+    residuals <- fitted - data[, as.character(formula[2])]
+
     Tree_object <- list(Trees = Trees,
-                        fitted = fitted)
+                        fitted = fitted,
+                        residuals = residuals)
   }
 
   class(Tree_object) <- "BLRF"
