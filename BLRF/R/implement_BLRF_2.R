@@ -15,12 +15,7 @@
 #' @export
 #'
 #' @examples
-<<<<<<< Updated upstream
 implement_BLRF2 <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
-=======
-implement_BLRF_2 <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
-
->>>>>>> Stashed changes
   n <- nrow(data)
   x_var <- strsplit(as.character(formula[3]), split = "[ ]\\+[ ]")
   if(x_var != '.') {
