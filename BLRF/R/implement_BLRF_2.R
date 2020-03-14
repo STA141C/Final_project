@@ -15,12 +15,7 @@
 #' @export
 #'
 #' @examples
-<<<<<<< HEAD
 implement_BLRF2 <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
-=======
-
-implement_BLRF_2 <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
->>>>>>> ba92177f6cce267d0af8d254e613077e82dd4d84
   n <- nrow(data)
   x_var <- strsplit(as.character(formula[3]), split = "[ ]\\+[ ]")
   if(x_var != '.') {
