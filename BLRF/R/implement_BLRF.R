@@ -33,11 +33,11 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
     Trees <- furrr::future_map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var),
                                .options = future_options(scheduling = FALSE))
   }
-
+  return(Trees)
   y <- as.character(formula[2])
   if(class(iris$Species) == "factor"){
-    label <- prediction_tree(Trees, data, type = "label")
-    prob <- prediction_tree(Trees, data, type = "probability")
+    label <- prediction_tree_categorical(Trees, data, type = "label")
+    prob <- prediction_tree_categorical(Trees, data, type = "probability")
     accuracy_m <- accuracy_mean_ci(Trees, data, lower = 0.025, upper = 0.975)
 
     Tree_object <- list(Trees = Trees,
@@ -46,7 +46,10 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
                         accuracy_ci = accuracy_m)
   }
   else if(class(iris$Species) == "numeric"){
+    fitted <- prediction_tree_regression(Trees, data)
 
+    Tree_object <- list(Trees = Trees,
+                        fitted = fitted)
   }
 
   class(Tree_object) <- "BLRF"

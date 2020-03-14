@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @examples
-prediction_tree <- function(Trees, newdata, type = "label"){
+prediction_tree_categorical <- function(Trees, newdata, type = "label"){
   Pres <- purrr::map(Trees, ~one_tree_predict(., newdata))
 
   final_prob <- purrr::reduce(Pres, `+`)/length(Trees)

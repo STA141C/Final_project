@@ -18,4 +18,4 @@ train_sample <- glass[train_ind, ]
 test_sample <- glass[-train_ind,]
 
 ## test PACKAGE
-implement_BLRF(Type~., data = train_sample, gamma = 0.5, b = NULL, s = 10, r= 100, n_var =3, core = 1)
+#implement_BLRF(Type~., data = train_sample, gamma = 0.5, b = NULL, s = 10, r= 100, n_var =3, core = 1)
