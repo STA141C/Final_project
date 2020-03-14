@@ -6,12 +6,14 @@
 #'
 #' @param Trees list of tree object.
 #' @param data data.frame object. Data to be predicted for accuracy.
+#' @param lower numeric. Define lower bound of quantile.
+#' @param upper numeric. Define upper bound of quantile.
 #'
 #' @return matrix. Average accuracy and confidence interval for each response variable.
 #' @export
 #'
 #' @examples
-accuracy_mean_ci <- function(Trees, data, lower, upper){
+accuracy_mean_ci <- function(Trees, data, lower = 0.025, upper = 0.975){
   confusion_matrix_es <- purrr::map(Trees, ~Confusion_one_tree(., data))
 
   accuracy_matrix <- purrr::map_dfc(confusion_matrix_es,
@@ -21,6 +23,8 @@ accuracy_mean_ci <- function(Trees, data, lower, upper){
 
   ACCURACY <- rbind(mean = mean_accuracy, accuracy_ci)
   colnames(ACCURACY) <- rownames(confusion_matrix_es[[1]])
+
+
   return(ACCURACY)
   # tpr <- purrr::map_dfc(confusion_matrix_es, ~{.[, "tp"]/(.[, "tp"] + .[, "fn"])})
   # f1 <- purrr::map_dfc(confusion_matrix_es,
