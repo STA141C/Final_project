@@ -7,15 +7,16 @@
 #' @param r numeric. Number of trees.
 #' @param n numeric. Number of observations in the original data.
 #' @param n_var numeric. Number of variables to subset to build one tree.
+#' @param split character string. Can be "deviance" or "gini".
 #'
 #' @return list of tree object.
 #' @export
 #'
 #' @examples
-tree_implement <- function(formula, subsample, r, n, n_var){
+tree_implement <- function(formula, subsample, r, n, n_var, split){
   Trees <- purrr::map(1:r, ~{
     weight <- weights(subsample, n)
-    one_tree(formula, subsample, weight, n_var)
+    one_tree(formula, subsample, weight, n_var, split)
     })
   return(Trees)
 }

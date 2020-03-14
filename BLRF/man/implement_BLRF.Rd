@@ -4,7 +4,17 @@
 \alias{implement_BLRF}
 \title{Drive file to run BLRF}
 \usage{
-implement_BLRF(formula, data, gamma, b = NULL, s, r, n_var, core = 1)
+implement_BLRF(
+  formula,
+  data,
+  gamma,
+  b = NULL,
+  s,
+  r,
+  n_var,
+  split = "gini",
+  core = 1
+)
 }
 \arguments{
 \item{formula}{A formula expression.}
@@ -21,7 +31,11 @@ implement_BLRF(formula, data, gamma, b = NULL, s, r, n_var, core = 1)
 
 \item{n_var}{numeric. Number of variables to subset to build one tree.}
 
-\item{core}{numeric. Number of core.}
+\item{split}{character string. Can be "deviance" or "gini". Default to be "gini".}
+
+\item{core}{numeric. Must be positive. Number of core to use for parallel computing.
+Default to 1, meaning no use of parallel computing.
+If higher than 1, then implement the function with parallel computing with given number of cores.}
 }
 \value{
 

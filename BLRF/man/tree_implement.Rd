@@ -4,7 +4,7 @@
 \alias{tree_implement}
 \title{Build Little Random Forest (LRS) for One Subsample.}
 \usage{
-tree_implement(formula, subsample, r, n, n_var)
+tree_implement(formula, subsample, r, n, n_var, split)
 }
 \arguments{
 \item{formula}{A formula expression.}
@@ -16,6 +16,8 @@ tree_implement(formula, subsample, r, n, n_var)
 \item{n}{numeric. Number of observations in the original data.}
 
 \item{n_var}{numeric. Number of variables to subset to build one tree.}
+
+\item{split}{character string. Can be "deviance" or "gini".}
 }
 \value{
 list of tree object.

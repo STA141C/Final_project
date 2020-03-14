@@ -16,8 +16,7 @@ prediction_tree_categorical <- function(Trees, newdata, type = "label"){
   final_prob <- purrr::reduce(Pres, `+`)/length(Trees)
   if(type == "probability"){
     return(final_prob)
-  }
-  else if (type == "label"){
+  } else if (type == "label"){
     final_label <- apply(final_prob, 1, which.max)
     return(final_label)
   }

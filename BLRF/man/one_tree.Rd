@@ -4,7 +4,7 @@
 \alias{one_tree}
 \title{Implement random forest once}
 \usage{
-one_tree(formula, subsample, weights, n_var)
+one_tree(formula, subsample, weights, n_var, split)
 }
 \arguments{
 \item{formula}{A formula expression.}
@@ -14,6 +14,8 @@ one_tree(formula, subsample, weights, n_var)
 \item{weights}{list.}
 
 \item{n_var}{numeric. Number of variables to sample.}
+
+\item{split}{character string. Can be "deviance" or "gini".}
 }
 \value{
 tree object.
