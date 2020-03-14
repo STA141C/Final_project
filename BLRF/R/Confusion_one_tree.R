@@ -7,7 +7,6 @@
 #' @param data data.frame object.
 #'
 #' @return matrix. Confusion matarix values for each response variable for one tree.
-#' @export
 #'
 #' @examples
 Confusion_one_tree <- function(one_tree, data){

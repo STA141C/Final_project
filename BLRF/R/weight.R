@@ -7,7 +7,6 @@
 #' @param n size of original dataset
 #'
 #' @return matrix
-#' @export
 #'
 #' @examples
 #' data(iris)

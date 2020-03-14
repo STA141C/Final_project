@@ -6,7 +6,6 @@
 #' @param data data.frame object. data to be predicted.
 #'
 #' @return data.frame object.
-#' @export
 #'
 #' @examples
 one_tree_predict <- function(one_tree, data){

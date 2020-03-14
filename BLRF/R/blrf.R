@@ -17,6 +17,7 @@
 #' If higher than 1, then implement the function with parallel computing with given number of cores.
 #'
 #' @return blrf object with different attributes given type of response variable.
+#'
 #' @export
 #'
 #' @examples

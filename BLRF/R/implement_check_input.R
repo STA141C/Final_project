@@ -16,7 +16,6 @@
 #' @param core numeric. Must be positive. Number of core to use for parallel computing.
 #'
 #' @return logic. TRUE if no error, otherwise terminate the program.
-#' @export
 #'
 #' @examples
 implement_check_input <- function(x, y, formula, data, gamma, b, s, r, n_var, split, core){

@@ -10,7 +10,6 @@
 #' @param split character string. Can be "deviance" or "gini".
 #'
 #' @return list of tree object.
-#' @export
 #'
 #' @examples
 tree_implement <- function(formula, subsample, r, n, n_var, split){

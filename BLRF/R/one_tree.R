@@ -9,7 +9,6 @@
 #' @param split character string. Can be "deviance" or "gini".
 #'
 #' @return tree object.
-#' @export
 #'
 #' @examples
 one_tree <- function(formula, subsample, weights, n_var, split){

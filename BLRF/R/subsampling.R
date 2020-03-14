@@ -8,7 +8,6 @@
 #' @param s numeric. Number of subsamples.
 #'
 #' @return list of data.frame
-#' @export
 #'
 #' @examples
 subsampling <- function(data, gamma, b = NULL, s){
