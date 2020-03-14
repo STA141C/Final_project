@@ -23,12 +23,16 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
   }
   Tree_object <- list()
   class(Tree_object) <- "BLRF"
+
   Subs <- subsampling(data, gamma, b, s)
   if(core == 1){
     Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var))
+    Trees <- flatten(Trees)
   }
   else if(core > 0){
-
+    plan(multiprocess, workers = core)
+    Trees <- furrr::future_map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var),
+                               .options = future_options(scheduling = FALSE))
   }
 
   label <- prediction_tree(Trees, data, type = "label")
@@ -39,5 +43,5 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
                       fitted_prob = prob,
                       fitted_label = label,
                       accuracy_ci = accuracy_m)
-  return(Trees)
+  return(Tree_object)
 }
