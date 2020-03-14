@@ -2,7 +2,7 @@
 % Please edit documentation in R/tree_implement.R
 \name{tree_implement}
 \alias{tree_implement}
-\title{Build Little Random Forest (LRS)}
+\title{Build Little Random Forest (LRS) for One Subsample.}
 \usage{
 tree_implement(formula, subsample, r, n, n_var)
 }
@@ -21,5 +21,5 @@ tree_implement(formula, subsample, r, n, n_var)
 list of tree object.
 }
 \description{
-Build Little Random Forest (LRS)
+Build Little Random Forest (LRS) for One Subsample.
 }

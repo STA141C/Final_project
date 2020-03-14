@@ -15,10 +15,16 @@
 #' @export
 #'
 #' @examples
-implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core){
+implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
   n <- nrow(data)
+  x_var <- as.character(formula[3])
   Subs <- subsampling(data, gamma, b, s)
-  Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var))
+  if(core = 1){
+    Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var))
+  }
+  else if(core > 0){
+
+  }
   #misclass <- all_eval(Trees)
   return(Trees)
 }

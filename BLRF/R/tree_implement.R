@@ -1,6 +1,6 @@
 
 
-#' Build Little Random Forest (LRS)
+#' Build Little Random Forest (LRS) for One Subsample.
 #'
 #' @param formula A formula expression.
 #' @param subsample data.frame.
