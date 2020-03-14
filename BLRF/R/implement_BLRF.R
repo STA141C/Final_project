@@ -35,13 +35,21 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
                                .options = future_options(scheduling = FALSE))
   }
 
-  label <- prediction_tree(Trees, data, type = "label")
-  prob <- prediction_tree(Trees, data, type = "probability")
-  accuracy_m <- accuracy_mean_ci(Trees, data, lower = 0.025, upper = 0.975)
+  y <- as.character(formula[2])
+  if(class(iris$Species) == "factor"){
+    label <- prediction_tree(Trees, data, type = "label")
+    prob <- prediction_tree(Trees, data, type = "probability")
+    accuracy_m <- accuracy_mean_ci(Trees, data, lower = 0.025, upper = 0.975)
 
-  Tree_object <- list(Trees = Trees,
-                      fitted_prob = prob,
-                      fitted_label = label,
-                      accuracy_ci = accuracy_m)
+    Tree_object <- list(Trees = Trees,
+                        fitted_prob = prob,
+                        fitted_label = label,
+                        accuracy_ci = accuracy_m)
+  }
+  else if(class(iris$Species) == "numeric"){
+
+  }
+
   return(Tree_object)
+
 }
