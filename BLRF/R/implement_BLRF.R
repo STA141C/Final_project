@@ -17,7 +17,8 @@
 #' @examples
 implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1){
   n <- nrow(data)
-  x_var <- as.character(formula[3])
+  x_var <- strsplit(as.character(formula[3]), split = "[ ]\\+[ ]")
+  data <- data[, x_var[[1]]]
   Subs <- subsampling(data, gamma, b, s)
   if(core = 1){
     Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var))
