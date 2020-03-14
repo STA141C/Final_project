@@ -21,8 +21,8 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
   if(x_var != '.') {
     data <- data[, c(as.character(formula[2]), x_var[[1]])]
   }
-
   Tree_object <- list()
+  class(Tree_object) <- "BLRF"
   Subs <- subsampling(data, gamma, b, s)
   if(core == 1){
     Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var))
@@ -30,6 +30,8 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
   else if(core > 0){
 
   }
-  #misclass <- all_eval(Trees)
+
+  prediction_tree(Trees, data, type = "label")
+
   return(Trees)
 }
