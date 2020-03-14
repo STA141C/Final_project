@@ -2,7 +2,7 @@
 
 #' Build Little Random Forest (LRS) for One Subsample.
 #'
-#' @param formula A formula expression.
+#' @param formula an object of class "formula".
 #' @param subsample data.frame.
 #' @param r numeric. Number of trees.
 #' @param n numeric. Number of observations in the original data.

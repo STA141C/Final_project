@@ -2,7 +2,7 @@
 
 #' Implement random forest once
 #'
-#' @param formula A formula expression.
+#' @param formula an object of class "formula".
 #' @param subsample data.frame.
 #' @param weights list.
 #' @param n_var numeric. Number of variables to sample.

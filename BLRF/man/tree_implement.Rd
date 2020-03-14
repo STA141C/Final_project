@@ -7,7 +7,7 @@
 tree_implement(formula, subsample, r, n, n_var, split)
 }
 \arguments{
-\item{formula}{A formula expression.}
+\item{formula}{an object of class "formula".}
 
 \item{subsample}{data.frame.}
 
