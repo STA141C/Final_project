@@ -37,4 +37,5 @@ implement_BLRF_2 <- function(formula, data, gamma, b = NULL, s, r, n_var, core =
     }
   #misclass <- all_eval(Trees)
   return(Trees)
+
 }
