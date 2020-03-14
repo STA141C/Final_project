@@ -17,5 +17,7 @@ train_ind <- sample(seq_len(nrow(glass)), size = train_size)
 train_sample <- glass[train_ind, ]
 test_sample <- glass[-train_ind,]
 
-## test PACKAGE
-#implement_BLRF(Type~., data = train_sample, gamma = 0.5, b = NULL, s = 10, r= 100, n_var =3, core = 1)
+## save train and test sample for test
+save(train_sample, file= "tinydata/train_sample.Rda")
+save(test_sample, file='tinydata/test_sample.Rda')
+

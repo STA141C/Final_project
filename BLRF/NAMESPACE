@@ -2,6 +2,7 @@
 
 export(accuracy_mean_ci)
 export(blrf)
+export(implement_BLRF)
 export(implement_BLRF2)
 export(parallel_implement_BLRF)
 export(prediction_tree_categorical)
