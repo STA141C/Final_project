@@ -1,17 +1,12 @@
-predict_ci <- function(blrf, new_data, lower, upper){
+predict_ci <- function(blrf, new_data, lower = 0.025, upper = 0.975){
 
-  result <- list()
-  for(i in 1:length(blrf)){
+  result <- map(blrf,
+      ~ predict(., new_data)
+      )
 
-    result[[i]] <- map_dbl(blrf[[i]],
-                       ~{
-                         predict(., new_data)
-                        }
-                          ) %>%
-      quantile(c(lower, upper))
+  return (apply(simplify2array(result), 1:2, quantile, prob = c(lower, upper)))
 
-  }
-
-  return (reduce(result, `+`)/length(result))
+  #return (result)
+  #return (purrr::reduce(result, `+`)/length(result))
 
 }
