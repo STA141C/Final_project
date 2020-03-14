@@ -43,9 +43,5 @@ implement_BLRF <- function(formula, data, gamma, b = NULL, s, r, n_var, core = 1
                       fitted_prob = prob,
                       fitted_label = label,
                       accuracy_ci = accuracy_m)
-<<<<<<< Updated upstream
   return(Tree_object)
-=======
-  return(Trees)
->>>>>>> Stashed changes
 }
