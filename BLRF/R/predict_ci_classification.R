@@ -11,8 +11,10 @@
 #' @examples
 predict_ci_classification <- function(blrf, new_data, lower = 0.025, upper = 0.975){
 
-  result <- map(blrf$Trees,
-                ~ predict(., new_data)
+  Trees <- blrf$Trees
+
+  result <- purrr::map(Trees,
+                       ~ predict(., new_data)
   )
 
   lower_bound <-  apply(simplify2array(result), 1:2, quantile, prob = lower)
