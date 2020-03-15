@@ -22,7 +22,7 @@ predict_ci_classification <- function(blrf, new_data, lower = 0.025, upper = 0.9
 
 
 
-  result_ci <- map2(lower_bound, upper_bound,
+  result_ci <- purrr::map2(lower_bound, upper_bound,
                     ~{
                       paste("[", .x, ",", .y, "]")
                     }) %>%
