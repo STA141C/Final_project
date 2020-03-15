@@ -41,6 +41,7 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", co
     future::plan(future::multiprocess, workers = core)
     Trees <- furrr::future_map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var,split),
                                .options = furrr::future_options(scheduling = FALSE))
+    Trees <- purrr::flatten(Trees)
   }
 
   Tree_object <- list(Call = formula,
