@@ -12,10 +12,11 @@
 #' @return list of tree object.
 #'
 #' @examples
-tree_implement <- function(formula, subsample, r, n, n_var, split){
+tree_implement <- function(formula, subsample, r, n, n_var, split, control){
   Trees <- purrr::map(1:r, ~{
     weight <- weights(subsample, n)
-    one_tree(formula, subsample, weight, n_var, split)
+    control <- tree::tree.control(nobs = nrow(train_sample), minsize = 10)
+    one_tree(formula, subsample, weight, n_var, split, control)
     })
   return(Trees)
 }

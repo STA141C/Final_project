@@ -11,10 +11,10 @@
 #' @return tree object.
 #'
 #' @examples
-one_tree <- function(formula, subsample, weights, n_var, split){
+one_tree <- function(formula, subsample, weights, n_var, split, control){
   var <- colnames(subsample)[!colnames(subsample) %in% as.character(formula[2])]
   list_var <- sample(var, n_var, replace = F)
   f <- stats::as.formula(paste(formula[2], '~', paste(list_var, collapse = '+')))
-  Tree <- tree::tree(f, data = subsample, weights = weights, wts = T, split = split)
+  Tree <- tree::tree(f, data = subsample, weights = weights, wts = T, split = split, control = control)
   return(Tree)
 }
