@@ -38,15 +38,36 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", co
     Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var, split))
     Trees <- purrr::flatten(Trees)
   } else if(core > 0){
+
     future::plan(future::multiprocess, workers = core)
-    Trees <- furrr::future_map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var,split),
-                               .options = furrr::future_options(scheduling = FALSE))
+    Trees <- furrr::future_map(Subs, ~{
+      #tree_implement(formula, subsample = ., r, n, n_var,split),
+
+      subsample <- .
+      purrr::map(1:r, ~{
+
+        weight <- weights(subsample, n)
+        #control <- tree::tree.control(nobs = nrow(train_sample), minsize = 10)
+        #one_tree(formula, subsample, weight, n_var, split, control)
+        var <- colnames(subsample)[!colnames(subsample) %in% as.character(formula[2])]
+        list_var <- sample(var, n_var, replace = F)
+        f <- stats::as.formula(paste(formula[2], '~', paste(list_var, collapse = '+')))
+        tree::tree(f, data = subsample, weights = weight, wts = T, split = split, control = control)
+
+      }
+      )
+
+
+    }, .options = furrr::future_options(scheduling = FALSE))
+
+
+
     Trees <- purrr::flatten(Trees)
   }
 
   Tree_object <- list(Call = formula,
                       attrs = list(gamma = gamma, b = b, s = s, r = r,
-                                    n_var = n_var, split = split, control = control))
+                                   n_var = n_var, split = split, control = control))
   if(class(data[,y]) == "factor"){
     label <- prediction_tree_categorical(Trees, data, type = "label")
 
