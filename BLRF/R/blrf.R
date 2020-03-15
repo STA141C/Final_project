@@ -37,9 +37,18 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", co
   if(core == 1){
     Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var, split))
     Trees <- purrr::flatten(Trees)
-  } else if(core > 0){
+  } else if(core > 1){
 
-    future::plan(future::multiprocess, workers = core)
+    # tryCatch(expr = {future::plan(future::multiprocess, workers = core)},
+    #          error = function(e) {
+    #                               future::plan(future::multicore, workers = core)})
+
+    if("Darwin" %in% Sys.info()['sysname']){
+      future::plan(future::multicore, workers = core)
+    }else{
+      future::plan(future::multiprocess, workers = core)
+    }
+
     Trees <- furrr::future_map(Subs, ~{
       #tree_implement(formula, subsample = ., r, n, n_var,split),
 
@@ -57,10 +66,7 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", co
       }
       )
 
-
     }, .options = furrr::future_options(scheduling = FALSE))
-
-
 
     Trees <- purrr::flatten(Trees)
   }

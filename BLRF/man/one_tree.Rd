@@ -4,7 +4,7 @@
 \alias{one_tree}
 \title{Implement random forest once}
 \usage{
-one_tree(formula, subsample, weights, n_var, split)
+one_tree(formula, subsample, weights, n_var, split, control)
 }
 \arguments{
 \item{formula}{an object of class "formula".}

@@ -5,7 +5,18 @@
 \title{blrf is used to fit Random Forest with Bag of Little Random Forests.
 It can be used to carry out both regression and classification trees.}
 \usage{
-blrf(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", core = 1)
+blrf(
+  formula,
+  data,
+  gamma,
+  b = NULL,
+  s,
+  r,
+  n_var,
+  split = "gini",
+  control = tree::tree.control(nobs = nrow(data), minsize = 10),
+  core = 1
+)
 }
 \arguments{
 \item{formula}{an object of class "formula".}
