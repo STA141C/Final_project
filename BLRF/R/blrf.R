@@ -29,9 +29,11 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", co
   implement_check_input(x_var, y, formula, data, gamma, b, s, r, n_var, split, core)
 
   if("." %in% x_var) {
-    x_var <- unique(c(colnames(data), x_var[x_var != "."]))
+    # x_var <- unique(c(colnames(data), x_var[x_var != "."]))
+    data <- data
+  }else{
+    data <- data[, c(y, x_var)]
   }
-  data <- data[, c(y, x_var)]
 
   Subs <- subsampling(data, gamma, b, s)
   if(core == 1){

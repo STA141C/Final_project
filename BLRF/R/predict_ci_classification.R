@@ -30,7 +30,6 @@ predict_ci_classification <- function(blrf, new_data, lower = 0.025, upper = 0.9
     as.data.frame()
 
 
-
   return (result_ci)
 
-}
+  }
