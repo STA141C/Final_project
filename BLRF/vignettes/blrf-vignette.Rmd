@@ -17,3 +17,145 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(BLRF)
 ```
+
+### 1.1 Introduction to BLRF
+
+#####  This library combines bag of Little Bootstraps, also known as BLB, to replace the process of ordinary bootstrapping in the standard Random Forest algorithm in order to gain more robustness in prediction for random forest classification as well as regression. 
+
+### 1.2 Main Method in the library(BLRF)
+
+* The method of `brlf()` function implements little random forests on the trainning dataset, returns a `brlf` object. 
+
+* function `brlf()` : main parameters included in the function
+
+| Parameter       | Definition in BLRF                               |
+|-----------------|--------------------------------------------------|
+| n               | Size of training data set                        | 
+| $\gamma$        | The user-defined sizing factor that determinses value of b | 
+| s               | Total number of Little Random Forests             | 
+| b               | Number of distinct observations in each Little Forest, $b = n^{\gamma}$| 
+| nvar            | Number of variables to subset to build one tree.  | 
+| split           | Can be "deviance" or "gini". Default to be "gini" | 
+| core            | Number of core to use for parallel computing | 
+
+* `brlf` object
+  * when implement on random forest regression ,`brlf` object includes:  `Tree_object$Trees`,`Tree_object$fitted_prob`,`Tree_object$fitted_label`,`Tree_object$accuracy_ci` 
+  
+  * when implement on random forest classification ,`brlf` object includes: 
+  `Tree_object$Trees`, `Tree_object$fitted`, `Tree_object$residuals`
+  
+
+### 2.1 Example of Little Random Forest Classification
+
+#### The following section describes how to use the library for random forest classification problem.
+* Load data set 'glass' for classification
+
+```{r}
+## load train data set and test data set for classification
+load("../tinydata/train_glass_sample.Rda")
+load("../tinydata/test_glass_sample.Rda")
+```
+
+
+* Run `brlf()` to create little random forest object with multiple attributes; when core = 1, indicating without parallel computation; 
+
+```{r, warning=FALSE, results='hide',message=FALSE}
+## run brlf() method, core = 1 without parallel computation
+cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 1)
+
+## attributes for brlf object
+cls_blrf$Trees
+cls_blrf$fitted_prob
+cls_blrf$fitted_label
+cls_blrf$accuracy_ci
+```
+
+* Run `brlf()` to create little random forest objects with multiple attributes; when core = 4, indicating with parallel computation of 4 cores.  
+
+```{r, warning=FALSE, results='hide',message=FALSE}
+## run brlf() method, core = 4 having parallel computation with core = 4
+cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 4)
+## attributes for brlf object
+cls_blrf$Trees
+cls_blrf$fitted_prob
+cls_blrf$fitted_label
+cls_blrf$accuracy_ci
+```
+
+* Run `prediction_tree_categorical()` to make prediction with list of trees with given type of calculating the prediction. `type = 'lable'`, return the predicted label. 'type=`probabilit'`, returns the max predicted probability.
+```{r, warning=FALSE,message=FALSE}
+## return predicted lable
+result <- prediction_tree_categorical(cls_blrf$Trees, test_glass_sample, type = 'label')
+result[[1]]
+```
+```{r, warning=FALSE,message=FALSE}
+## return predicted probabilities
+result <- prediction_tree_categorical(cls_blrf$Trees, test_glass_sample, type = 'probability')
+result[1:6]
+```
+
+* Run `predict_ci_classification()` to get percentile confidence intervals for values of classification prediction results. Set `lower` and `upper` arguments for different confidence intervals.
+```{r, warning=FALSE,message=FALSE}
+result <- predict_ci_classification(cls_blrf, test_glass_sample, lower = 0.025, upper = 0.975)
+result[[1]][1]
+```
+
+* Run `accuracy_mean_ci()` to calculate overall average accuracy and the confidence interval of accuracy aggreating all Trees. Returan mean accuracy as well as confidence interval of accuracy for all y lables.
+
+```{r}
+result <- accuracy_mean_ci(cls_blrf$Trees, test_glass_sample, lower = 0.025, upper = 0.975)
+result
+```
+
+
+### 2.2 Example of Little Random Forest Regression
+
+#### The following section describes how to apply this library for random forest regression  .
+
+* Load data set 'mortality' for regression
+```{r}
+## load train data set and test data set for regression
+load("../tinydata/train_mortality_sample.Rda")
+load("../tinydata/test_mortality_sample.Rda")
+```
+
+
+* Run `brlf()` to create little random forest objects with multiple attributes; when core = 1, indicating without parallel computation
+
+```{r, warning=FALSE, results='hide',message=FALSE}
+## run brlf() method, core = 4 having parallel computation with core = 4
+rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 1)
+## attributes for brlf object
+rg_blrf$attrs
+rg_blrf$Trees
+rg_blrf$fitted
+rg_blrf$residuals
+```
+
+
+* Run `brlf()` to create little random forest objects with multiple attributes; when core = 4, indicating with parallel computation of 4 cores.  
+
+```{r, warning=FALSE, results='hide',message=FALSE}
+## run brlf() method, core = 4 having parallel computation with core = 4
+rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 4)
+## attributes for brlf object
+rg_blrf$attrs
+rg_blrf$Trees
+rg_blrf$fitted
+rg_blrf$residuals
+```
+
+* Run `prediction_tree_regression()` to make prediction with list of trees with given type of calculating the prediction. 
+
+```{r}
+result <- prediction_tree_regression(rg_blrf$Trees, test_mortality_sample)
+result[1:6]
+```
+
+* Run `predict_ci_regression()` to get percentile confidence intervals for values of regression prediction results. Set `lower` and `upper` arguments for different confidence intervals.
+
+```{r}
+result <- predict_ci_regression(rg_blrf, test_mortality_sample, lower = 0.025, upper = 0.076)
+result[1]
+```
+
