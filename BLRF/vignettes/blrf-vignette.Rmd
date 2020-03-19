@@ -191,7 +191,7 @@ result[1:6]
 * Run `predict_ci_regression()` to get percentile confidence intervals for values of regression prediction results. Set `lower` and `upper` arguments for different confidence intervals.
 
 ```{r}
-result <- predict_ci_regression(rg_blrf, test_mortality_sample, lower = 0.025, upper = 0.076)
+result <- predict_ci_regression(rg_blrf, test_mortality_sample, lower = 0.025, upper = 0.095)
 result[1]
 ```
 
