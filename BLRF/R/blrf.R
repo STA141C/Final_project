@@ -22,8 +22,10 @@
 #'
 #' @examples
 blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
-                 control = tree::tree.control(nobs = nrow(data), minsize = 10),core = 1){
+                 control = tree::tree.control(nobs = nrow(data), minsize = 10),
+                 core = 1){
   n <- nrow(data)
+
 
   x_var <- strsplit(as.character(formula[3]), split = "[ ]\\+[ ]")[[1]]
   y <- as.character(formula[2])

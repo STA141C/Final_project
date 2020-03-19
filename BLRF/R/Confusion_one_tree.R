@@ -13,7 +13,7 @@ Confusion_one_tree <- function(one_tree, data){
   #f1, tpr,
   #tree::misclass.tree(one_tree)
 
-  prob <- one_tree_predict(one_tree, data)
+  prob <- predict(one_tree, data)
   cats <- colnames(prob)
   pre <- colnames(prob)[apply(prob, 1, which.max)]
   y <- as.character(as.formula(one_tree)[2])

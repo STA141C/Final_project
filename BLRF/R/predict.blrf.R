@@ -28,7 +28,7 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
   #cat y and label
   if(blrf$attrs$type == "factor" && !probability){
     final_label <- as.numeric(apply(final_pres, 1, which.max))
-    final_label <- names[final_label]
+    names(final_label) <- names(Pres[[1]])
   }
 
   all_result <- NULL
@@ -36,6 +36,11 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
   if(confidence){
     lower_bound <- apply(simplify2array(Pres), 1:2, quantile, prob = lower)
     upper_bound <- apply(simplify2array(Pres), 1:2, quantile, prob = upper)
+
+    if(blrf$attrs$type == "numeric"){
+      lower_bound <- t(lower_bound)
+      upper_bound <- t(upper_bound)
+    }
 
     if(pretty){
       result_ci <- purrr::map2(lower_bound, upper_bound,
