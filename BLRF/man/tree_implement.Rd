@@ -4,7 +4,7 @@
 \alias{tree_implement}
 \title{Build Little Random Forest (LRS) for One Subsample.}
 \usage{
-tree_implement(formula, subsample, r, n, n_var, split)
+tree_implement(formula, subsample, r, n, n_var, split, control)
 }
 \arguments{
 \item{formula}{an object of class "formula".}

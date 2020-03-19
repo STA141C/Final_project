@@ -18,6 +18,6 @@ prediction_tree_categorical <- function(Trees, newdata, type = "label"){
     return(final_prob)
   } else if (type == "label"){
     final_label <- apply(final_prob, 1, which.max)
-    return(final_label)
+    return(as.factor(final_label))
   }
 }

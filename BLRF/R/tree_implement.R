@@ -15,7 +15,7 @@
 tree_implement <- function(formula, subsample, r, n, n_var, split, control){
   Trees <- purrr::map(1:r, ~{
     weight <- weights(subsample, n)
-    control <- tree::tree.control(nobs = nrow(train_sample), minsize = 10)
+    control <- tree::tree.control(nobs = n, mincut = 5, minsize = 10, mindev = 0.01)
     one_tree(formula, subsample, weight, n_var, split, control)
     })
   return(Trees)

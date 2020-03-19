@@ -28,7 +28,6 @@ predict_ci_classification <- function(blrf, new_data, lower = 0.025, upper = 0.9
                     })
   result_ci <- as.data.frame(matrix(result_ci, nrow = nrow(new_data), dimnames = list(row.names(lower_bound), colnames(lower_bound))))
 
-
   return (result_ci)
 
-}
+  }
