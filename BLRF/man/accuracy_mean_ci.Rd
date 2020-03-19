@@ -6,10 +6,10 @@
 the confidence interval of accuracy aggreating all Trees.
 Will call Confusion_one_tree function to calculate confusion matrix for one tree.}
 \usage{
-accuracy_mean_ci(Trees, data, lower = 0.025, upper = 0.975)
+accuracy_mean_ci(blrf, data, lower = 0.025, upper = 0.975)
 }
 \arguments{
-\item{Trees}{list of tree object.}
+\item{blrf}{object.}
 
 \item{data}{data.frame object. Data to be predicted for accuracy.}
 
