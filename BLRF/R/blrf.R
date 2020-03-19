@@ -25,8 +25,6 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
                  control = tree::tree.control(nobs = nrow(data), minsize = 10),
                  core = 1){
   n <- nrow(data)
-
-
   x_var <- strsplit(as.character(formula[3]), split = "[ ]\\+[ ]")[[1]]
   y <- as.character(formula[2])
   implement_check_input(x_var, y, formula, data, gamma, b, s, r, n_var, split, core)
@@ -51,10 +49,10 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
     if("Darwin" %in% Sys.info()['sysname']){
       future::plan(future::multicore, workers = core)
     }else{
-      future::plan(future::multiprocess, workers = core)
-    }
 
-    Trees <- furrr::future_map(Subs, ~{
+      future::plan(future::multiprocess, workers = core)
+
+      Trees <- furrr::future_map(Subs, ~{
       #tree_implement(formula, subsample = ., r, n, n_var,split),
 
       subsample <- .
@@ -67,14 +65,14 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
         list_var <- sample(var, n_var, replace = F)
         f <- stats::as.formula(paste(formula[2], '~', paste(list_var, collapse = '+')))
         tree::tree(f, data = subsample, weights = weight, wts = T, split = split, control = control)
+        }
+        )
 
-      }
-      )
-
-    }, .options = furrr::future_options(scheduling = FALSE))
+      }, .options = furrr::future_options(scheduling = FALSE))
 
     Trees <- purrr::flatten(Trees)
-  }
+    }
+    }
 
   Tree_object <- list(Call = formula,
                       attrs = list(gamma = gamma, b = b, s = s, r = r,
