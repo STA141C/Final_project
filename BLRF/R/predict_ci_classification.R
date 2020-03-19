@@ -13,6 +13,7 @@ predict_ci_classification <- function(blrf, new_data, lower = 0.025, upper = 0.9
 
   Trees <- blrf$Trees
 
+
   result <- purrr::map(Trees,
                        ~ predict(., new_data)
   )
