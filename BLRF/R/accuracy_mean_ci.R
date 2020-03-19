@@ -4,7 +4,7 @@
 #' the confidence interval of accuracy aggreating all Trees.
 #' Will call Confusion_one_tree function to calculate confusion matrix for one tree.
 #'
-#' @param Trees list of tree object.
+#' @param blrf object.
 #' @param data data.frame object. Data to be predicted for accuracy.
 #' @param lower numeric. Define lower bound of quantile.
 #' @param upper numeric. Define upper bound of quantile.
@@ -13,7 +13,8 @@
 #' @export
 #'
 #' @examples
-accuracy_mean_ci <- function(Trees, data, lower = 0.025, upper = 0.975){
+accuracy_mean_ci <- function(blrf, data, lower = 0.025, upper = 0.975){
+  Trees <- blrf$Trees
   confusion_matrix_es <- purrr::map(Trees, ~Confusion_one_tree(., data))
 
   accuracy_matrix <- purrr::map_dfc(confusion_matrix_es,

@@ -21,7 +21,8 @@
 #' @export
 #'
 #' @examples
-blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", control = tree::tree.control(nobs = nrow(data), minsize = 10),core = 1){
+blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
+                 control = tree::tree.control(nobs = nrow(data), minsize = 10),core = 1){
   n <- nrow(data)
 
   x_var <- strsplit(as.character(formula[3]), split = "[ ]\\+[ ]")[[1]]
@@ -37,7 +38,7 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", co
 
   Subs <- subsampling(data, gamma, b, s)
   if(core == 1){
-    Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var, split))
+    Trees <- purrr::map(Subs, ~tree_implement(formula, subsample = ., r, n, n_var, split, control = control))
     Trees <- purrr::flatten(Trees)
   } else if(core > 1){
 
@@ -75,24 +76,27 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini", co
 
   Tree_object <- list(Call = formula,
                       attrs = list(gamma = gamma, b = b, s = s, r = r,
-                                   n_var = n_var, split = split, control = control))
+                                   n_var = n_var, split = split,
+                                   control = control, type = class(data[,y])))
   if(class(data[,y]) == "factor"){
-    label <- prediction_tree_categorical(Trees, data, type = "label")
-
-    prob <- prediction_tree_categorical(Trees, data, type = "probability")
-
-    accuracy_m <- accuracy_mean_ci(Trees, data, lower = 0.025, upper = 0.975)
-
     Tree_object$Trees <- Trees
+
+    label <- prediction_tree_categorical(Tree_object, data, type = "label")
+
+    prob <- prediction_tree_categorical(Tree_object, data, type = "probability")
+
+    accuracy_m <- accuracy_mean_ci(Tree_object, data, lower = 0.025, upper = 0.975)
+
     Tree_object$fitted_prob <- prob
     Tree_object$fitted_label <- label
     Tree_object$accuracy_ci <- accuracy_m
   } else if(class(data[,y]) == "numeric"){
-    fitted <- prediction_tree_regression(Trees, data)
+    Tree_object$Trees <- Trees
+
+    fitted <- prediction_tree_regression(Tree_object, data)
 
     residuals <- fitted - data[, as.character(formula[2])]
 
-    Tree_object$Trees <- Trees
     Tree_object$fitted <- fitted
     Tree_object$residuals <- residuals
   }
