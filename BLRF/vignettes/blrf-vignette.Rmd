@@ -47,10 +47,10 @@ library(BLRF)
 | Parameter       | Definition in BLRF                                          |
 |-----------------|-------------------------------------------------------------|
 | n               | Size of training data set                                 | 
-| $\gamma$(gamma)      | The user-defined sizing factor that determinses value of b | 
+| $\gamma$(gamma) | The user-defined sizing factor that determinses value of b | 
 | s               | Total number of Little Random Forests             | 
 | b               | Number of distinct observations in each Little Forest, $b = n^{\gamma}$| 
-|r                |Number of trees                    |
+| r               |Number of trees                    |
 | nvar            | Number of variables to subset to build one tree.  | 
 | split           | Can be "deviance" or "gini". Default to be "gini" | 
 | core            | Number of core to use for parallel computing | 
