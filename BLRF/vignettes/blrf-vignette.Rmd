@@ -47,17 +47,18 @@ library(BLRF)
 | Parameter       | Definition in BLRF                                          |
 |-----------------|-------------------------------------------------------------|
 | n               | Size of training data set                                 | 
-| $\gamma$        | The user-defined sizing factor that determinses value of b | 
+| $\gamma$(gamma)      | The user-defined sizing factor that determinses value of b | 
 | s               | Total number of Little Random Forests             | 
 | b               | Number of distinct observations in each Little Forest, $b = n^{\gamma}$| 
+|r                |Number of trees                    |
 | nvar            | Number of variables to subset to build one tree.  | 
 | split           | Can be "deviance" or "gini". Default to be "gini" | 
 | core            | Number of core to use for parallel computing | 
 
 * `brlf` object
-  + when implement on random forest regression ,`brlf` object includes:    `Tree_object$Trees`,`Tree_object$fitted_prob`,`Tree_object$fitted_label`,`Tree_object$accuracy_ci`
+  + when implement on random forest classification ,`brlf` object includes:    `Tree_object$Trees`,`Tree_object$fitted_prob`,`Tree_object$fitted_label`,`Tree_object$accuracy_ci`
   
-  + when implement on random forest classification ,`brlf` object includes:   
+  + when implement on random forest regression ,`brlf` object includes:   
   `Tree_object$Trees`, `Tree_object$fitted`, `Tree_object$residuals`
   
 ### 1.4 Make predictions and confidence intervals for statistical properties
@@ -96,7 +97,7 @@ load("../tinydata/test_glass_sample.Rda")
 
 ```{r, warning=FALSE, results='hide',message=FALSE}
 ## run brlf() method, core = 1 without parallel computation
-cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 1)
+cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 1)
 
 ## attributes for brlf object
 cls_blrf$Trees
@@ -109,7 +110,7 @@ cls_blrf$accuracy_ci
 
 ```{r, warning=FALSE, results='hide',message=FALSE}
 ## run brlf() method, core = 4 having parallel computation with core = 4
-cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 4)
+cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 4)
 ## attributes for brlf object
 cls_blrf$Trees
 cls_blrf$fitted_prob
@@ -172,7 +173,7 @@ rg_blrf$residuals
 
 ```{r, warning=FALSE, results='hide',message=FALSE}
 ## run brlf() method, core = 4 having parallel computation with core = 4
-rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 4)
+rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 4)
 ## attributes for brlf object
 rg_blrf$attrs
 rg_blrf$Trees
