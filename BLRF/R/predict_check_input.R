@@ -12,9 +12,9 @@
 #' @export
 #'
 #' @examples
-predict_check_input <- function(blrf, confidence, lower, upper){
+predict_check_input <- function(blrf, confidence, probability , lower, upper){
 
-  if(confidence & blrf$attrs$type == "factor"){
+  if(confidence & (blrf$attrs$type == "factor") & (probability  == F)){
     stop("No confidence interval available for label response")
   }
 

@@ -19,7 +19,8 @@
 #' @examples
 predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty = F,
                          lower = 0.025, upper = 0.975){
-  predict_check_input(blrf, confidence, lower, upper)
+
+  predict_check_input(blrf, confidence, probability, lower, upper)
 
   Trees <- blrf$Trees
   Pres <- purrr::map(Trees, ~predict(., newdata))
