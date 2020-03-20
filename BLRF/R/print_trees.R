@@ -20,7 +20,7 @@
 #'
 #' @examples
 print_trees <- function(blrf, tree_list, splits = TRUE, label = "yval", all = TRUE,
-                        pretty = 1, cex = 1){
+                        pretty = 1, cex = 0.8){
   tt <- blrf$Trees[tree_list]
   map(tt, ~plot_one_tree(., splits, label, all, pretty, cex))
 }
