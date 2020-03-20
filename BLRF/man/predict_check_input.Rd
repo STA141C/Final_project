@@ -4,12 +4,15 @@
 \alias{predict_check_input}
 \title{Checking if all inputs are valid for function predict_blrf.}
 \usage{
-predict_check_input(blrf, confidence, lower, upper)
+predict_check_input(blrf, confidence, pretty, lower, upper)
 }
 \arguments{
 \item{blrf}{blrf object.}
 
 \item{confidence}{logical. If TURE, then output confidence interval.}
+
+\item{pretty}{logical. If pretty is TRUE, then output character string output of ci for factor response,
+not available for numeric response.}
 
 \item{lower}{numeric. If confidence is TRUE, then define lower bound of ci.}
 

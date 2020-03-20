@@ -7,15 +7,20 @@
 #' @param confidence logical. If TURE, then output confidence interval.
 #' @param lower numeric. If confidence is TRUE, then define lower bound of ci.
 #' @param upper numeric. If confidence is TRUE, then define upper bound of ci.
+#' @param pretty logical. If pretty is TRUE, then output character string output of ci for factor response,
+#' not available for numeric response.
 #'
 #' @return logic.
-#' @export
 #'
 #' @examples
-predict_check_input <- function(blrf, confidence, lower, upper){
+predict_check_input <- function(blrf, confidence, pretty, lower, upper){
 
   if(confidence & blrf$attrs$type == "factor"){
     stop("No confidence interval available for label response")
+  }
+
+  if(confidence & blrf$attrs$type == "numeric" & pretty){
+    warning("`pretty` is not available for numeric response")
   }
 
   if(!is.numeric(c(lower, upper))){

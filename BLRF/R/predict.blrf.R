@@ -11,7 +11,8 @@
 #' type of blrf or predict value for "numeric" type of blrf.
 #' @param lower numeric. If confidence is TRUE, then define lower bound of ci.
 #' @param upper numeric. If confidence is TRUE, then define upper bound of ci.
-#' @param pretty logical. If pretty is TRUE, then output character string output of ci.
+#' @param pretty logical. If pretty is TRUE, then output character string output of ci for factor response,
+#' not available for numeric response.
 #'
 #' @return list or matrix of prediction values (or with confidence interval).
 #' @export
@@ -19,7 +20,7 @@
 #' @examples
 predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty = F,
                          lower = 0.025, upper = 0.975){
-  predict_check_input(blrf, confidence, lower, upper)
+  predict_check_input(blrf, confidence, pretty, lower, upper)
 
   Trees <- blrf$Trees
   Pres <- purrr::map(Trees, ~predict(., newdata))
@@ -28,34 +29,34 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
   #cat y and label
   if(blrf$attrs$type == "factor" && !probability){
     final_label <- as.numeric(apply(final_pres, 1, which.max))
-    names(final_label) <- names(Pres[[1]])
+    final_label <- (colnames(final_pres))[final_label]
   }
 
   all_result <- NULL
   result_ci <- NULL
   if(confidence){
-    lower_bound <- apply(simplify2array(Pres), 1:2, quantile, prob = lower)
-    upper_bound <- apply(simplify2array(Pres), 1:2, quantile, prob = upper)
+    if(blrf$attrs$type == "factor"){
+      lower_bound <- apply(simplify2array(Pres), 1:2, quantile, prob = lower)
+      upper_bound <- apply(simplify2array(Pres), 1:2, quantile, prob = upper)
 
-    if(blrf$attrs$type == "numeric"){
-      lower_bound <- t(lower_bound)
-      upper_bound <- t(upper_bound)
-    }
+      if(pretty){
+        result_ci <- purrr::map2(lower_bound, upper_bound,
+                                 ~{paste("[", .x, ",", .y, "]")})
+        result_ci <- as.data.frame(matrix(result_ci,
+                                          nrow = nrow(newdata),
+                                          dimnames = list(row.names(lower_bound),
+                                                          colnames(lower_bound))))
+      } else{
+        result_ci <- cbind(lwr = lower_bound, upr = upper_bound)
+        colnames(result_ci) <- c(paste0("lwr.", colnames(lower_bound)),
+                                 paste0("upr.", colnames(upper_bound)))
+      }
+    } else {
+      lower_bound <- apply(simplify2array(Pres), 1, quantile, prob = lower)
+      upper_bound <- apply(simplify2array(Pres), 1, quantile, prob = upper)
 
-    if(pretty){
-      result_ci <- purrr::map2(lower_bound, upper_bound,
-                               ~{paste("[", .x, ",", .y, "]")})
-      result_ci <- as.data.frame(matrix(result_ci,
-                                      nrow = nrow(newdata),
-                                      dimnames = list(row.names(lower_bound),
-                                                      colnames(lower_bound))))
-
-    } else{
+      # result_ci <- map2_chr(lower_bound, upper_bound, ~paste("[", .x, ",", .y, "]"))
       result_ci <- cbind(lwr = lower_bound, upr = upper_bound)
-      colnames(result_ci) <- c(paste0("lwr.", colnames(lower_bound)),
-                               paste0("upr.", colnames(upper_bound)))
-      #index <- unlist(map(1:n_v, ~c(., .+n_v)))
-      #result_ci <- result_ci[, index]
     }
     all_result <- cbind(ci = result_ci)
   }
@@ -76,13 +77,9 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
     }
   }
 
-  names <- colnames(Pres[[1]])
-  n_v <- length(names)
-
-
-  if(confidence & probability & !pretty){
+  if(blrf$attrs$type == "factor" & confidence & probability & !pretty){
     all_result <- all_result[, unlist(purrr::map(1:n_v, ~c(., .+n_v, .+2*n_v)))]
-  } else if(confidence & probability & pretty){
+  } else if(blrf$attrs$type == "factor" & confidence & probability & pretty){
     print("h")
     all_result <- all_result[, unlist(purrr::map(1:n_v, ~c(., .+n_v)))]
   }
