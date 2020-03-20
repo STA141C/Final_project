@@ -33,12 +33,13 @@ library(BLRF)
 |`subsampling()`   | Sampling original data into s subsamples without replacement    | list of subsamples|
 |`weights()`     | Calculate weights of each observation in subsample                | matrix of weights |
 |`one_tree()`     | Implement random forest once and return a one_tree object        | one_tree object   |
-|`one_tree_predict()` | Make predictions on one tree                                 | prediction        |
 |`tree_implement()` | Build Little Random Forest (LRS) for one subsample          | LRS               |
 |`Confusion_one_tree()` | Calculate confusion matrix for each response variable for one tree| confusion_matrix|
+|`implement_check_input()` | Checking if all inputs are valid for function implement_BLRF.x| True or False|
+|`predict_check_input()` | Checking if all inputs are valid for function predict_blrf.| True or False|
 
 
-### 1.3 Main Method in the library(BLRF)
+### 1.3 Fit little random forests `brlf()`
 
 * The method of `brlf()` function implements little random forests on the trainning dataset, returns a `brlf` object. 
 
@@ -53,7 +54,8 @@ library(BLRF)
 | r               |Number of trees                    |
 | nvar            | Number of variables to subset to build one tree.  | 
 | split           | Can be "deviance" or "gini". Default to be "gini" | 
-| core            | Number of core to use for parallel computing | 
+| control          | tree::tree.control | 
+| core            | Number of core to used for parallel computing | 
 
 * `brlf` object
   + when implement on random forest classification ,`brlf` object includes:    `Tree_object$Trees`,`Tree_object$fitted_prob`,`Tree_object$fitted_label`,`Tree_object$accuracy_ci`
@@ -61,26 +63,15 @@ library(BLRF)
   + when implement on random forest regression ,`brlf` object includes:   
   `Tree_object$Trees`, `Tree_object$fitted`, `Tree_object$residuals`
   
-### 1.4 Make predictions and confidence intervals for statistical properties
+### 1.4 Make predictions `predict()`
 
   * Random forest could be applied in both solving classification and regression problems. It operates by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes (classification) or mean prediction (regression) of the individual trees. We implement methods so that to meet the requirements of different problem solving targets.
   
-  + Classification
-     
-      | function name   | Description                                                      | 
-      |-----------------|------------------------------------------------------------------|
-      |`prediction_tree_categorical()`| Make prediction with list of trees with given type (label or probability) of calculating the prediction    | 
-      |`predict_ci_classification()`     | Get Percentile confidence Intervals for probabilities of Classification Prediction              | 
-      |`accuracy_mean_ci()`     | Calculate overall average accuracy and the confidence interval of accuracy aggreating all Trees       | 
-
-  + Reregssion
+  + Classification：`predict()` is able to return predictions for labels or probabilities; able to return confidence interval for predicted probabilities. `accuracy_mean_ci()` is able to calculate overall average accuracy and the confidence interval of accuracy aggreating all Trees.
   
-      | function name   | Description                                                      | 
-      |-----------------|------------------------------------------------------------------|
-      |`prediction_tree_regression()`| Make prediction with list of trees for regression    | 
-      |`predict_ci_regression()`     | Get Percentile Confidence Intervals for values of Regression Prediction  |
-
+  + Reregssion：`predict()` is able to return predictions of regression; able to get the percentile confidence intervals for regression predictions.
   
+
 ### 2.1 Example of Little Random Forest Classification
 
 #### The following section describes how to use the library for random forest classification problem.
@@ -90,6 +81,8 @@ library(BLRF)
 ## load train data set and test data set for classification
 load("../tinydata/train_glass_sample.Rda")
 load("../tinydata/test_glass_sample.Rda")
+test_glass_sample_x <- subset(test_glass_sample, select = -c(Type))
+test_glass_sample_y <- test_glass_sample[c('Type')]
 ```
 
 
@@ -110,7 +103,7 @@ cls_blrf$accuracy_ci
 
 ```{r, warning=FALSE, results='hide',message=FALSE}
 ## run brlf() method, core = 4 having parallel computation with core = 4
-cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 4)
+cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=200, n_var=5,  core = 4)
 ## attributes for brlf object
 cls_blrf$Trees
 cls_blrf$fitted_prob
@@ -118,23 +111,35 @@ cls_blrf$fitted_label
 cls_blrf$accuracy_ci
 ```
 
-* Run `prediction_tree_categorical()` to make prediction with list of trees with given type of calculating the prediction. `type = 'lable'`, return the predicted label. 'type=`probabilit'`, returns the max predicted probability.
-```{r, warning=FALSE,message=FALSE}
-## return predicted lable
-result <- prediction_tree_categorical(cls_blrf$Trees, test_glass_sample, type = 'label')
-result[[1]]
-```
-```{r, warning=FALSE,message=FALSE}
-## return predicted probabilities
-result <- prediction_tree_categorical(cls_blrf$Trees, test_glass_sample, type = 'probability')
-result[1:6]
+
+* Run `predict()` function to make predictions: set confidence = F, set probability = F, return predicted labels for data
+```{r, warning=FALSE, results='hide',message=FALSE}
+## make predictions on y lable
+pred <- predict(cls_blrf, test_glass_sample_x, confidence = F, probability = F)
+pred[[1]]
 ```
 
-* Run `predict_ci_classification()` to get percentile confidence intervals for values of classification prediction results. Set `lower` and `upper` arguments for different confidence intervals.
-```{r, warning=FALSE,message=FALSE}
-result <- predict_ci_classification(cls_blrf, test_glass_sample, lower = 0.025, upper = 0.975)
-result[[1]][1]
-```
+
+
+
+
+<!-- * Run `prediction_tree_categorical()` to make prediction with list of trees with given type of calculating the prediction. `type = 'lable'`, return the predicted label. 'type=`probabilit'`, returns the max predicted probability. -->
+<!-- ```{r, warning=FALSE,message=FALSE} -->
+<!-- ## return predicted lable -->
+<!-- result <- prediction_tree_categorical(cls_blrf$Trees, test_glass_sample, type = 'label') -->
+<!-- result[[1]] -->
+<!-- ``` -->
+<!-- ```{r, warning=FALSE,message=FALSE} -->
+<!-- ## return predicted probabilities -->
+<!-- result <- prediction_tree_categorical(cls_blrf$Trees, test_glass_sample, type = 'probability') -->
+<!-- result[1:6] -->
+<!-- ``` -->
+
+<!-- * Run `predict_ci_classification()` to get percentile confidence intervals for values of classification prediction results. Set `lower` and `upper` arguments for different confidence intervals. -->
+<!-- ```{r, warning=FALSE,message=FALSE} -->
+<!-- result <- predict_ci_classification(cls_blrf, test_glass_sample, lower = 0.025, upper = 0.975) -->
+<!-- result[[1]][1] -->
+<!-- ``` -->
 
 * Run `accuracy_mean_ci()` to calculate overall average accuracy and the confidence interval of accuracy aggreating all Trees. Returan mean accuracy as well as confidence interval of accuracy for all y lables.
 
