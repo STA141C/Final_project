@@ -59,7 +59,7 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
       upper_bound <- apply(simplify2array(Pres), 1, quantile, prob = upper)
 
       if(pretty){
-        result_ci <- map2_chr(lower_bound, upper_bound, ~paste("[", .x, ",", .y, "]"))
+        result_ci <- purrr::map2_chr(lower_bound, upper_bound, ~paste("[", .x, ",", .y, "]"))
       }
       else{
         result_ci <- cbind(lwr = lower_bound, upr = upper_bound)

@@ -10,7 +10,7 @@ test_that("prediction with/without confidence interval",{
   test_glass_sample_x <- subset(test_glass_sample, select = -c(Type))
   test_glass_sample_y <- test_glass_sample[c('Type')]
 
-  cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 4)
+  cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 1)
   result1 <- predict(cls_blrf, test_glass_sample_x, confidence = T, probability = T)
   expect_equal(class(result1), "data.frame")
 
@@ -22,7 +22,7 @@ test_that("prediction with/without confidence interval",{
   test_mortality_sample_x <- subset(test_mortality_sample, select = -c(MORTALITY))
   test_mortality_sample_y <- test_mortality_sample[c('MORTALITY')]
 
-  rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 4)
+  rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 1)
   result3 <- predict(rg_blrf, test_mortality_sample_x, confidence = T, probability = F, pretty = F,
                      lower = 0.025, upper = 0.975)
   expect_equal(class(result3), "data.frame")
