@@ -11,7 +11,7 @@ print_trees(
   label = "yval",
   all = TRUE,
   pretty = 1,
-  cex = 1
+  cex = 0.8
 )
 }
 \arguments{
@@ -37,7 +37,7 @@ list of plots.
 Plot multiple trees with given the list/vector indexes of target trees in the blrf object.
 }
 \details{
-Options' deatils except `Tree` can be found in tree::text.tree().
+Options' deatils except \code{blrf} can be found in tree::text.tree().
 }
 \examples{
 data(iris)
