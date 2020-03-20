@@ -78,9 +78,10 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
   }
 
   if(blrf$attrs$type == "factor" & confidence & probability & !pretty){
+    n_v <- colnames(final_pres)
     all_result <- all_result[, unlist(purrr::map(1:n_v, ~c(., .+n_v, .+2*n_v)))]
   } else if(blrf$attrs$type == "factor" & confidence & probability & pretty){
-    print("h")
+    n_v <- colnames(final_pres)
     all_result <- all_result[, unlist(purrr::map(1:n_v, ~c(., .+n_v)))]
   }
 
