@@ -6,7 +6,8 @@
 #' @param one_tree tree object.
 #' @param data data.frame object.
 #'
-#' @return matrix. Confusion matarix values for each response variable for one tree.
+#' @return list of matrix and overall number of correct labeled observations.
+#' Confusion matarix values for each response variable for one tree.
 #'
 #' @examples
 Confusion_one_tree <- function(one_tree, data){
@@ -28,5 +29,7 @@ Confusion_one_tree <- function(one_tree, data){
                                                data[, y] != cats[i])))
   }
   rownames(confusion_matrix) <- cats
-  return(confusion_matrix)
+
+  overall = sum(data[, y] == pre)
+  return(list(confusion_matrix, overall))
 }

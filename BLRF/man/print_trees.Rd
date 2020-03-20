@@ -15,7 +15,7 @@ print_trees(
 )
 }
 \arguments{
-\item{blrf}{blrf objecgt.}
+\item{blrf}{Object of class inheriting from \code{blrf}.}
 
 \item{tree_list}{numeric. indext of trees needs to make plot, ie. c(1,2).}
 
@@ -37,5 +37,9 @@ list of plots.
 Plot multiple trees with given the list/vector indexes of target trees in the blrf object.
 }
 \details{
-Options' deatils except `Tree` can be found in tree::text.tree.
+Options' deatils except `Tree` can be found in tree::text.tree().
+}
+\examples{
+data(iris)
+tt <- blrf(Species~., iris, gamma = 0.7, s = 10, r = 100, n_var = 2)
 }

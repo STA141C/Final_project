@@ -2,15 +2,12 @@
 % Please edit documentation in R/accuracy_mean_ci.R
 \name{accuracy_mean_ci}
 \alias{accuracy_mean_ci}
-\title{Calculate overall average accuracy and
-the confidence interval of accuracy aggreating all Trees.
-Will call Confusion_one_tree function to calculate confusion matrix for one tree.
-Default to output 95% confidence interval.}
+\title{Calculate average accuracy and its CI}
 \usage{
 accuracy_mean_ci(blrf, data, lower = 0.025, upper = 0.975)
 }
 \arguments{
-\item{blrf}{object.}
+\item{blrf}{Object of class inheriting from \code{blrf}.}
 
 \item{data}{data.frame object. Data to be predicted for accuracy.}
 
@@ -24,8 +21,12 @@ Default to be 0.975.}
 matrix. Average accuracy and confidence interval for each response variable.
 }
 \description{
-Calculate overall average accuracy and
-the confidence interval of accuracy aggreating all Trees.
+Function is used to compute average accuracy given input of "factor" type of \code{blrf}
+and its the confidence interval of accuracy aggreating all Trees.
 Will call Confusion_one_tree function to calculate confusion matrix for one tree.
-Default to output 95% confidence interval.
+Default to output 95 percentage confidence interval.
+}
+\examples{
+tt <- blrf(Species~., iris, gamma = 0.7, s = 10, r = 100, n_var = 2)
+accuracy_mean_ci(tt, data, lower = 0.025, upper = 0.975)
 }

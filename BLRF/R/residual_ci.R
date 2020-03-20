@@ -1,9 +1,12 @@
 
 
-#' Calculate residual confidence interval for regression random forest.
-#' Default to output 95% confidence interval.
+#' Calculate average accuracy and its CI
 #'
-#' @param blrf blrf object.
+#' @description Function is used to compute average residual given input of "numeric" type of \code{blrf}
+#' and its the confidence interval of residuals aggreating all Trees. Default to output 95 percentage
+#' confidence interval.
+#'
+#' @param blrf Object of class inheriting from \code{blrf}.
 #' @param data data.frame.
 #' @param lower numeric. Define lower bound of residual confidence interval.
 #' Default to be 0.025.
@@ -14,6 +17,9 @@
 #' @export
 #'
 #' @examples
+#' data(mtcars)
+#' tt <- blrf(mpg~., mtcars, gamma = 0.7, s = 10, r = 100, n_var = 2)
+#' predict.blrf(tt, mtcars)
 residual_ci <- function(blrf, data, lower = 0.025, upper = 0.975){
   Trees <- blrf$Trees
   y_name <- as.character(blrf$Call[2])

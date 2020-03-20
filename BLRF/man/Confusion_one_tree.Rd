@@ -12,7 +12,8 @@ Confusion_one_tree(one_tree, data)
 \item{data}{data.frame object.}
 }
 \value{
-matrix. Confusion matarix values for each response variable for one tree.
+list of matrix and overall number of correct labeled observations.
+Confusion matarix values for each response variable for one tree.
 }
 \description{
 Calculate confusion matrix for each response variable for one tree.

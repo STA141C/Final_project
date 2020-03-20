@@ -2,8 +2,7 @@
 % Please edit documentation in R/blrf.R
 \name{blrf}
 \alias{blrf}
-\title{blrf is used to fit Random Forest with Bag of Little Random Forests.
-It can be used to carry out both regression and classification trees.}
+\title{Fitting random forest with bag of little bootstraps}
 \usage{
 blrf(
   formula,
@@ -19,7 +18,7 @@ blrf(
 )
 }
 \arguments{
-\item{formula}{an object of class "formula".}
+\item{formula}{an object of class \code{formula}.}
 
 \item{data}{an optional data frame, list or environment
 (or object coercible by as.data.frame to a data frame) containing the variables in the model.}
@@ -44,9 +43,23 @@ Default to 1, meaning no use of parallel computing.
 If higher than 1, then implement the function with parallel computing with given number of cores.}
 }
 \value{
-blrf object with different attributes given type of response variable.
+Object of class inheriting from \code{blrf}.
 }
 \description{
 blrf is used to fit Random Forest with Bag of Little Random Forests.
 It can be used to carry out both regression and classification trees.
+}
+\details{
+\code{gamma} is used to indicate the factor of the size to subsample the original data,
+ie. \eqn{n^{gamma}}.
+Optional \code{b} indicates the size of each subsample and each sample are set to be equal sized if b is given.
+\code{n_var} is the number of variables to be used in the tree and
+is used to randomly select variables when each tree is generated.
+If \code{b} and \code{gamma} are both given, \code{b} is used to generate subsamples.
+\code{split} can be "gini" or "deviance" and is the splitting criterion to use to generate each tree.
+Detail argument of \code{control} can be found in tree::tree.control().
+}
+\examples{
+data(iris)
+blrf(Species~., iris, gamma = 0.7, s = 10, r = 100, n_var = 2)
 }
