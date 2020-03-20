@@ -21,6 +21,9 @@
 #' @examples
 #' data(iris)
 #' tt <- blrf(Species~., iris, gamma = 0.7, s = 10, r = 100, n_var = 2)
+#' z <- print_trees(tt, c(1,2))
+#' z[[1]
+#' z[[2]]
 print_trees <- function(blrf, tree_list, splits = TRUE, label = "yval", all = TRUE,
                         pretty = 1, cex = 0.8){
   tt <- blrf$Trees[tree_list]
