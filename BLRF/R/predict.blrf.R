@@ -20,7 +20,7 @@
 #' @examples
 predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty = F,
                          lower = 0.025, upper = 0.975){
-  predict_check_input(blrf, confidence, probability, pretty, lower, upper)
+  predict_check_input(blrf, confidence, probability, lower, upper)
 
   Trees <- blrf$Trees
   Pres <- purrr::map(Trees, ~predict(., newdata))
@@ -55,10 +55,15 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
       lower_bound <- apply(simplify2array(Pres), 1, quantile, prob = lower)
       upper_bound <- apply(simplify2array(Pres), 1, quantile, prob = upper)
 
-      # result_ci <- map2_chr(lower_bound, upper_bound, ~paste("[", .x, ",", .y, "]"))
-      result_ci <- cbind(lwr = lower_bound, upr = upper_bound)
+      if(pretty){
+        result_ci <- map2_chr(lower_bound, upper_bound, ~paste("[", .x, ",", .y, "]"))
+      }
+      else{
+        result_ci <- cbind(lwr = lower_bound, upr = upper_bound)
+      }
+
     }
-    all_result <- cbind(ci = result_ci)
+    all_result <- cbind.data.frame(ci = result_ci)
   }
 
   if(probability){
@@ -78,10 +83,10 @@ predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty 
   }
 
   if(blrf$attrs$type == "factor" & confidence & probability & !pretty){
-    n_v <- colnames(final_pres)
+    n_v <- length(colnames(final_pres))
     all_result <- all_result[, unlist(purrr::map(1:n_v, ~c(., .+n_v, .+2*n_v)))]
   } else if(blrf$attrs$type == "factor" & confidence & probability & pretty){
-    n_v <- colnames(final_pres)
+    n_v <- length(colnames(final_pres))
     all_result <- all_result[, unlist(purrr::map(1:n_v, ~c(., .+n_v)))]
   }
 
