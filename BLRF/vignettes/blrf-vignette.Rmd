@@ -39,6 +39,7 @@ library(BLRF)
 |`residual_ci()` | Calculate residual confidence interval for regression random forest| matrix |
 |`implement_check_input()` | Checking if all inputs are valid for function `blrf()`| True or False|
 |`predict_check_input()` | Checking if all inputs are valid for function `predict.blrf()`| True or False|
+|`plot_one_tree()` | Plot one tree with given text object of plot| recordedplot|
 
 
 ### 1.3 Fit little random forests `brlf()`
@@ -69,9 +70,15 @@ library(BLRF)
 
   * Random forest could be applied in both solving classification and regression problems. It operates by constructing a multitude of decision trees at training time and outputting the class that is the mode of the classes (classification) or mean prediction (regression) of the individual trees. We implement methods so that to meet the requirements of different problem solving targets.
   
+  
   + Classification：`predict()` is able to return predictions for labels or probabilities; able to return confidence interval for predicted probabilities. `accuracy_mean_ci()` is able to calculate overall average accuracy and the confidence interval of accuracy aggreating all Trees.
   
   + Reregssion：`predict()` is able to return predictions of regression; able to get the percentile confidence intervals for regression predictions.
+  
+
+### 1.5 Plot trees `print_trees()`  
+
+To understand trees well,we could apply 'print_trees()` function to get more features related to trees bulit in little random forests. This method enables to plot multiple trees with given the list/vector indexes of target trees in the blrf object.
   
 
 ### 2.1 Example of Little Random Forest Classification
@@ -94,8 +101,7 @@ test_glass_sample_y <- test_glass_sample[c('Type')]
 
 ```{r, warning=FALSE, results='hide', message=FALSE}
 ## run brlf() method, core = 1 without parallel computation
-cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 1)
-
+cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.82, b = NULL, s=10, r=100, n_var=5,  core = 1)
 ## attributes for brlf object
 cls_blrf$Trees
 cls_blrf$fitted_prob
@@ -107,12 +113,18 @@ cls_blrf$accuracy_ci
 
 ```{r, warning=FALSE, results='hide',message=FALSE}
 ## run brlf() method, core = 4 having parallel computation with core = 4
-cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.5, b = NULL, s=10, r=200, n_var=5,  core = 4)
+cls_blrf <- blrf(Type~., train_glass_sample, gamma=0.82, b = NULL, s=10, r=200, n_var=5,  core = 4)
 ## attributes for brlf object
 cls_blrf$Trees
 cls_blrf$fitted_prob
 cls_blrf$fitted_label
 cls_blrf$accuracy_ci
+```
+
+
+* Run `print_trees()` to plot multiple trees that bulit by `blrf()`
+```{r echo=FALSE, fig.width=8, fig.height= 6}
+print_trees(cls_blrf,c(2))
 ```
 
 
@@ -185,7 +197,6 @@ rg_blrf$fitted
 rg_blrf$residuals
 rg_blrf$residuals_ci
 ```
-
 
 
 * Run `predict()` function to make predictions: **set confidence = F, probability = F, pretty = T**, return regression predictions for data
