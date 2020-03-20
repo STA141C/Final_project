@@ -7,6 +7,7 @@
 #' @param weights list.
 #' @param n_var numeric. Number of variables to sample.
 #' @param split character string. Can be "deviance" or "gini".
+#' @param control control object based on tree::tree.control() function from "tree" package.
 #'
 #' @return tree object.
 #'

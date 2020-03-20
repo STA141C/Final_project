@@ -3,5 +3,4 @@
 S3method(predict,blrf)
 export(accuracy_mean_ci)
 export(blrf)
-export(implement_BLRF)
 export(residual_ci)

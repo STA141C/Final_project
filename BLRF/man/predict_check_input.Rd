@@ -2,7 +2,8 @@
 % Please edit documentation in R/predict_check_input.R
 \name{predict_check_input}
 \alias{predict_check_input}
-\title{Checking if all inputs are valid for function predict_blrf.}
+\title{Checking if all inputs are valid for function predict_blrf.
+If not valid input exists, terminate program and output error message.}
 \usage{
 predict_check_input(blrf, confidence, probability, lower, upper)
 }
@@ -24,4 +25,5 @@ logic.
 }
 \description{
 Checking if all inputs are valid for function predict_blrf.
+If not valid input exists, terminate program and output error message.
 }

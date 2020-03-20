@@ -16,6 +16,8 @@ one_tree(formula, subsample, weights, n_var, split, control)
 \item{n_var}{numeric. Number of variables to sample.}
 
 \item{split}{character string. Can be "deviance" or "gini".}
+
+\item{control}{control object based on tree::tree.control() function from "tree" package.}
 }
 \value{
 tree object.

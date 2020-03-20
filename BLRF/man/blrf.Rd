@@ -36,6 +36,9 @@ blrf(
 
 \item{split}{character string. Can be "deviance" or "gini". Default to be "gini".}
 
+\item{control}{control object based on tree::tree.control() function from "tree" package.
+Default set to call tree::tree.control(), ie, using default values from tree::tree.control()).}
+
 \item{core}{numeric. Must be positive. Number of core to use for parallel computing.
 Default to 1, meaning no use of parallel computing.
 If higher than 1, then implement the function with parallel computing with given number of cores.}

@@ -10,12 +10,12 @@
 #' @param probability logical. If TRUE, then output will be predict probability for factor
 #' type of blrf. If FALSE, then the output will be predict label for "factor"
 #' type of blrf or predict value for "numeric" type of blrf.
+#' @param pretty logical. If pretty is TRUE, then output character string output of ci for factor response,
+#' not available for numeric response.
 #' @param lower numeric. If confidence is TRUE, then define lower bound of ci.
 #' Default to be 0.025.
 #' @param upper numeric. If confidence is TRUE, then define upper bound of ci.
 #' Default to be 0.975.
-#' @param pretty logical. If pretty is TRUE, then output character string output of ci for factor response,
-#' not available for numeric response.
 #'
 #' @return list or matrix of prediction values (or with confidence interval).
 #' @export

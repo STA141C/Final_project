@@ -5,12 +5,12 @@
 \title{Calculate residual confidence interval for regression random forest.
 Default to output 95% confidence interval.}
 \usage{
-residual_ci(blrf, y, lower = 0.025, upper = 0.975)
+residual_ci(blrf, data, lower = 0.025, upper = 0.975)
 }
 \arguments{
 \item{blrf}{blrf object.}
 
-\item{y}{numeric. Response variable.}
+\item{data}{data.frame.}
 
 \item{lower}{numeric. Define lower bound of residual confidence interval.
 Default to be 0.025.}

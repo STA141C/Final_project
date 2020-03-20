@@ -26,6 +26,8 @@ tree_implement(
 \item{n_var}{numeric. Number of variables to subset to build one tree.}
 
 \item{split}{character string. Can be "deviance" or "gini".}
+
+\item{control}{control object based on tree::tree.control() function from "tree" package.}
 }
 \value{
 list of tree object.

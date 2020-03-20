@@ -2,6 +2,7 @@
 
 
 #' Checking if all inputs are valid for function predict_blrf.
+#' If not valid input exists, terminate program and output error message.
 #'
 #' @param blrf blrf object.
 #' @param confidence logical. If TURE, then output confidence interval.

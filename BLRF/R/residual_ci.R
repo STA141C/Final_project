@@ -4,7 +4,7 @@
 #' Default to output 95% confidence interval.
 #'
 #' @param blrf blrf object.
-#' @param y numeric. Response variable.
+#' @param data data.frame.
 #' @param lower numeric. Define lower bound of residual confidence interval.
 #' Default to be 0.025.
 #' @param upper numeric. Define upper bound of residual confidence interval.
