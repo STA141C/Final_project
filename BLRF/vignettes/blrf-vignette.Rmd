@@ -141,62 +141,62 @@ pred[[1]]
 <!-- result[[1]][1] -->
 <!-- ``` -->
 
-* Run `accuracy_mean_ci()` to calculate overall average accuracy and the confidence interval of accuracy aggreating all Trees. Returan mean accuracy as well as confidence interval of accuracy for all y lables.
+<!-- * Run `accuracy_mean_ci()` to calculate overall average accuracy and the confidence interval of accuracy aggreating all Trees. Returan mean accuracy as well as confidence interval of accuracy for all y lables. -->
 
-```{r}
-result <- accuracy_mean_ci(cls_blrf$Trees, test_glass_sample, lower = 0.025, upper = 0.975)
-result
-```
-
-
-### 2.2 Example of Little Random Forest Regression
-
-#### The following section describes how to apply this library for random forest regression  .
-
-* Load data set 'mortality' for regression
-```{r}
-## load train data set and test data set for regression
-load("../tinydata/train_mortality_sample.Rda")
-load("../tinydata/test_mortality_sample.Rda")
-```
+<!-- ```{r} -->
+<!-- result <- accuracy_mean_ci(cls_blrf$Trees, test_glass_sample, lower = 0.025, upper = 0.975) -->
+<!-- result -->
+<!-- ``` -->
 
 
-* Run `brlf()` to create little random forest objects with multiple attributes; when core = 1, indicating without parallel computation
+<!-- ### 2.2 Example of Little Random Forest Regression -->
 
-```{r, warning=FALSE, results='hide',message=FALSE}
-## run brlf() method, core = 4 having parallel computation with core = 4
-rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 1)
-## attributes for brlf object
-rg_blrf$attrs
-rg_blrf$Trees
-rg_blrf$fitted
-rg_blrf$residuals
-```
+<!-- #### The following section describes how to apply this library for random forest regression  . -->
+
+<!-- * Load data set 'mortality' for regression -->
+<!-- ```{r} -->
+<!-- ## load train data set and test data set for regression -->
+<!-- load("../tinydata/train_mortality_sample.Rda") -->
+<!-- load("../tinydata/test_mortality_sample.Rda") -->
+<!-- ``` -->
 
 
-* Run `brlf()` to create little random forest objects with multiple attributes; when core = 4, indicating with parallel computation of 4 cores.  
+<!-- * Run `brlf()` to create little random forest objects with multiple attributes; when core = 1, indicating without parallel computation -->
 
-```{r, warning=FALSE, results='hide',message=FALSE}
-## run brlf() method, core = 4 having parallel computation with core = 4
-rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 4)
-## attributes for brlf object
-rg_blrf$attrs
-rg_blrf$Trees
-rg_blrf$fitted
-rg_blrf$residuals
-```
+<!-- ```{r, warning=FALSE, results='hide',message=FALSE} -->
+<!-- ## run brlf() method, core = 4 having parallel computation with core = 4 -->
+<!-- rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=10, n_var=5,  core = 1) -->
+<!-- ## attributes for brlf object -->
+<!-- rg_blrf$attrs -->
+<!-- rg_blrf$Trees -->
+<!-- rg_blrf$fitted -->
+<!-- rg_blrf$residuals -->
+<!-- ``` -->
 
-* Run `prediction_tree_regression()` to make prediction with list of trees with given type of calculating the prediction. 
 
-```{r}
-result <- prediction_tree_regression(rg_blrf$Trees, test_mortality_sample)
-result[1:6]
-```
+<!-- * Run `brlf()` to create little random forest objects with multiple attributes; when core = 4, indicating with parallel computation of 4 cores.   -->
 
-* Run `predict_ci_regression()` to get percentile confidence intervals for values of regression prediction results. Set `lower` and `upper` arguments for different confidence intervals.
+<!-- ```{r, warning=FALSE, results='hide',message=FALSE} -->
+<!-- ## run brlf() method, core = 4 having parallel computation with core = 4 -->
+<!-- rg_blrf <- blrf(MORTALITY~., train_mortality_sample, gamma=0.5, b = NULL, s=10, r=100, n_var=5,  core = 4) -->
+<!-- ## attributes for brlf object -->
+<!-- rg_blrf$attrs -->
+<!-- rg_blrf$Trees -->
+<!-- rg_blrf$fitted -->
+<!-- rg_blrf$residuals -->
+<!-- ``` -->
 
-```{r}
-result <- predict_ci_regression(rg_blrf, test_mortality_sample, lower = 0.025, upper = 0.095)
-result[1]
-```
+<!-- * Run `prediction_tree_regression()` to make prediction with list of trees with given type of calculating the prediction.  -->
+
+<!-- ```{r} -->
+<!-- result <- prediction_tree_regression(rg_blrf$Trees, test_mortality_sample) -->
+<!-- result[1:6] -->
+<!-- ``` -->
+
+<!-- * Run `predict_ci_regression()` to get percentile confidence intervals for values of regression prediction results. Set `lower` and `upper` arguments for different confidence intervals. -->
+
+<!-- ```{r} -->
+<!-- result <- predict_ci_regression(rg_blrf, test_mortality_sample, lower = 0.025, upper = 0.095) -->
+<!-- result[1] -->
+<!-- ``` -->
 
