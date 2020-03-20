@@ -14,11 +14,11 @@
 #' @export
 #'
 #' @examples
-residual_ci <- function(blrf, y, lower = 0.025, upper = 0.975){
+residual_ci <- function(blrf, data, lower = 0.025, upper = 0.975){
   Trees <- blrf$Trees
-
-  Pres <- purrr::map(Trees, ~predict(., newdata))
-  sq_pre <- purrr::map(Pres, ~{ (. - y)^2})
+  y_name <- as.character(blrf$Call[2])
+  Pres <- purrr::map(Trees, ~predict(., data))
+  sq_pre <- purrr::map(Pres, ~{ (. - data[, y_name])^2})
   lower_bound <- apply(simplify2array(sq_pre), 1, quantile, lower)
   upper_bound <- apply(simplify2array(sq_pre), 1, quantile, upper)
 
