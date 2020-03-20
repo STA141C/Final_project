@@ -1,6 +1,6 @@
 
 
-#' Make prediction with given data.
+#' Predict with given data.
 #'
 #' User can indicate if output needs to be probability
 #' for factor response or include confidence interval.
@@ -20,10 +20,11 @@
 #' Default to be 0.975.
 #'
 #' @return list or matrix of prediction values (or with confidence interval).
+#' @method predict blrf
 #' @export
 #'
 #' @examples
-predict_blrf <- function(blrf, newdata, confidence = F, probability = F, pretty = F,
+predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty = F,
                          lower = 0.025, upper = 0.975){
   predict_check_input(blrf, confidence, probability, lower, upper)
 

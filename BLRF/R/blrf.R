@@ -81,9 +81,9 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
   if(class(data[,y]) == "factor"){
     Tree_object$Trees <- Trees
 
-    label <- predict_blrf(Tree_object, data)
+    label <- predict.blrf(Tree_object, data)
 
-    prob <- predict_blrf(Tree_object, data, probability = T)
+    prob <- predict.blrf(Tree_object, data, probability = T)
 
     #label <- prediction_tree_categorical(Tree_object, data, type = "label")
 
@@ -97,7 +97,7 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
   } else if(class(data[,y]) == "numeric"){
     Tree_object$Trees <- Trees
 
-    fitted <- predict_blrf(Tree_object, data)
+    fitted <- predict.blrf(Tree_object, data)
 
     residuals <- fitted - data[, as.character(formula[2])]
 
