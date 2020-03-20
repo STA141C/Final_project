@@ -1,6 +1,8 @@
 
 
-#' Make prediction with given data. User can indicate if output needs to be probability
+#' Make prediction with given data.
+#'
+#' User can indicate if output needs to be probability
 #' for factor response or include confidence interval.
 #' Default to output 95% confidence interval if include confidence interval.
 #'
@@ -21,7 +23,7 @@
 #' @export
 #'
 #' @examples
-predict.blrf <- function(blrf, newdata, confidence = F, probability = F, pretty = F,
+predict_blrf <- function(blrf, newdata, confidence = F, probability = F, pretty = F,
                          lower = 0.025, upper = 0.975){
   predict_check_input(blrf, confidence, probability, lower, upper)
 

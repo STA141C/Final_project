@@ -17,7 +17,9 @@ Imports:
     dplyr,
     purrr,
     furrr,
-    future
+    future,
+    graphics,
+    grDevices
 RoxygenNote: 7.1.0
 Suggests: 
     testthat,
