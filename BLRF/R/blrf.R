@@ -48,9 +48,7 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
 
     if("Darwin" %in% Sys.info()['sysname']){
       future::plan(future::multicore, workers = core)
-    }else{
-
-      future::plan(future::multiprocess, workers = core)
+    }else{ future::plan(future::multiprocess, workers = core)}
 
       Trees <- furrr::future_map(Subs, ~{
       #tree_implement(formula, subsample = ., r, n, n_var,split),
@@ -70,8 +68,8 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
 
       }, .options = furrr::future_options(scheduling = FALSE))
 
-    Trees <- purrr::flatten(Trees)
-    }
+      Trees <- purrr::flatten(Trees)
+
   }
 
   Tree_object <- list(Call = formula,
