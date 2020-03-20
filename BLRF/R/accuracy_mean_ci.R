@@ -24,7 +24,7 @@ accuracy_mean_ci <- function(blrf, data, lower = 0.025, upper = 0.975){
   Trees <- blrf$Trees
   list <- purrr::map(Trees, ~Confusion_one_tree(., data))
 
-  confusion_matrix_es <- map(list, ~.[[1]])
+  confusion_matrix_es <- purrr::map(list, ~.[[1]])
   accuracy_matrix <- purrr::map_dfc(confusion_matrix_es,
                                      ~{(.[, "tp"]+.[, "tn"])/nrow(data)})
   accuracy_ci <- apply(accuracy_matrix, 1, function(x) stats::quantile(x, c(lower, upper)))
