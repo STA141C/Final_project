@@ -32,7 +32,7 @@ accuracy_mean_ci <- function(blrf, data, lower = 0.025, upper = 0.975){
 
   ACCURACY <- rbind(mean = mean_accuracy, accuracy_ci)
 
-  overall <- map_dbl(list, ~.[[2]])/nrow(data)
+  overall <- purrr::map_dbl(list, ~.[[2]])/nrow(data)
   m_acc <- sum(overall)/(length(overall))
   lw <- quantile(overall, lower)
   up <- quantile(overall, upper)
@@ -42,9 +42,4 @@ accuracy_mean_ci <- function(blrf, data, lower = 0.025, upper = 0.975){
   colnames(ACCURACY) <- c(rownames(confusion_matrix_es[[1]]), "overall")
 
   return(ACCURACY)
-  # tpr <- purrr::map_dfc(confusion_matrix_es, ~{.[, "tp"]/(.[, "tp"] + .[, "fn"])})
-  # f1 <- purrr::map_dfc(confusion_matrix_es,
-  #                     ~{.[, "tp"]+.[, "tn"]})
-
-  #purrr::reduce(confusion_matrix_es, `+`) / length(list_score)
 }
