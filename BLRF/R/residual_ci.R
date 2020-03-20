@@ -19,7 +19,7 @@
 #' @examples
 #' data(mtcars)
 #' tt <- blrf(mpg~., mtcars, gamma = 0.7, s = 10, r = 100, n_var = 2)
-#' predict.blrf(tt, mtcars)
+#' residual_ci(tt, mtcars)
 residual_ci <- function(blrf, data, lower = 0.025, upper = 0.975){
   Trees <- blrf$Trees
   y_name <- as.character(blrf$Call[2])
