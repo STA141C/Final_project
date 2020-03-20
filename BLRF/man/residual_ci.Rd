@@ -2,16 +2,26 @@
 % Please edit documentation in R/residual_ci.R
 \name{residual_ci}
 \alias{residual_ci}
-\title{Title}
+\title{Calculate residual confidence interval for regression random forest.
+Default to output 95% confidence interval.}
 \usage{
-residual_ci(blrf, data, lower, upper)
+residual_ci(blrf, y, lower = 0.025, upper = 0.975)
 }
 \arguments{
-\item{upper}{}
+\item{blrf}{blrf object.}
+
+\item{y}{numeric. Response variable.}
+
+\item{lower}{numeric. Define lower bound of residual confidence interval.
+Default to be 0.025.}
+
+\item{upper}{numeric. Define upper bound of residual confidence interval.
+Default to be 0.975.}
 }
 \value{
-
+matrix of residual confidence intervals for given observations.
 }
 \description{
-Title
+Calculate residual confidence interval for regression random forest.
+Default to output 95% confidence interval.
 }

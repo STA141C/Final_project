@@ -3,11 +3,14 @@
 #' Calculate overall average accuracy and
 #' the confidence interval of accuracy aggreating all Trees.
 #' Will call Confusion_one_tree function to calculate confusion matrix for one tree.
+#' Default to output 95% confidence interval.
 #'
 #' @param blrf object.
 #' @param data data.frame object. Data to be predicted for accuracy.
 #' @param lower numeric. Define lower bound of quantile.
+#' Default to be 0.025.
 #' @param upper numeric. Define upper bound of quantile.
+#' Default to be 0.975.
 #'
 #' @return matrix. Average accuracy and confidence interval for each response variable.
 #' @export

@@ -4,7 +4,8 @@
 \alias{accuracy_mean_ci}
 \title{Calculate overall average accuracy and
 the confidence interval of accuracy aggreating all Trees.
-Will call Confusion_one_tree function to calculate confusion matrix for one tree.}
+Will call Confusion_one_tree function to calculate confusion matrix for one tree.
+Default to output 95% confidence interval.}
 \usage{
 accuracy_mean_ci(blrf, data, lower = 0.025, upper = 0.975)
 }
@@ -13,9 +14,11 @@ accuracy_mean_ci(blrf, data, lower = 0.025, upper = 0.975)
 
 \item{data}{data.frame object. Data to be predicted for accuracy.}
 
-\item{lower}{numeric. Define lower bound of quantile.}
+\item{lower}{numeric. Define lower bound of quantile.
+Default to be 0.025.}
 
-\item{upper}{numeric. Define upper bound of quantile.}
+\item{upper}{numeric. Define upper bound of quantile.
+Default to be 0.975.}
 }
 \value{
 matrix. Average accuracy and confidence interval for each response variable.
@@ -24,4 +27,5 @@ matrix. Average accuracy and confidence interval for each response variable.
 Calculate overall average accuracy and
 the confidence interval of accuracy aggreating all Trees.
 Will call Confusion_one_tree function to calculate confusion matrix for one tree.
+Default to output 95% confidence interval.
 }

@@ -3,7 +3,8 @@
 \name{predict.blrf}
 \alias{predict.blrf}
 \title{Make prediction with given data. User can indicate if output needs to be probability
-or include confidence interval.}
+for factor response or include confidence interval.
+Default to output 95% confidence interval if include confidence interval.}
 \usage{
 \method{predict}{blrf}(
   blrf,
@@ -29,14 +30,17 @@ type of blrf or predict value for "numeric" type of blrf.}
 \item{pretty}{logical. If pretty is TRUE, then output character string output of ci for factor response,
 not available for numeric response.}
 
-\item{lower}{numeric. If confidence is TRUE, then define lower bound of ci.}
+\item{lower}{numeric. If confidence is TRUE, then define lower bound of ci.
+Default to be 0.025.}
 
-\item{upper}{numeric. If confidence is TRUE, then define upper bound of ci.}
+\item{upper}{numeric. If confidence is TRUE, then define upper bound of ci.
+Default to be 0.975.}
 }
 \value{
 list or matrix of prediction values (or with confidence interval).
 }
 \description{
 Make prediction with given data. User can indicate if output needs to be probability
-or include confidence interval.
+for factor response or include confidence interval.
+Default to output 95% confidence interval if include confidence interval.
 }

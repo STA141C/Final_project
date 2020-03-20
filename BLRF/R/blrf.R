@@ -99,8 +99,11 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
 
     residuals <- fitted - data[, as.character(formula[2])]
 
+    residuals_interval <- residual_ci(Tree_object, data[, as.character(formula[2])])
+
     Tree_object$fitted <- fitted
     Tree_object$residuals <- residuals
+    Tree_object$residuals_ci <- residuals_interval
   }
 
   class(Tree_object) <- "blrf"

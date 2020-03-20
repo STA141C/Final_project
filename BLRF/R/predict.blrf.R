@@ -1,7 +1,8 @@
 
 
 #' Make prediction with given data. User can indicate if output needs to be probability
-#' or include confidence interval.
+#' for factor response or include confidence interval.
+#' Default to output 95% confidence interval if include confidence interval.
 #'
 #' @param blrf blrf object.
 #' @param newdata data.frame. Data to be
@@ -10,7 +11,9 @@
 #' type of blrf. If FALSE, then the output will be predict label for "factor"
 #' type of blrf or predict value for "numeric" type of blrf.
 #' @param lower numeric. If confidence is TRUE, then define lower bound of ci.
+#' Default to be 0.025.
 #' @param upper numeric. If confidence is TRUE, then define upper bound of ci.
+#' Default to be 0.975.
 #' @param pretty logical. If pretty is TRUE, then output character string output of ci for factor response,
 #' not available for numeric response.
 #'
