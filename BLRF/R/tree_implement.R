@@ -6,7 +6,7 @@
 #' @param subsample data.frame.
 #' @param r numeric. Number of trees.
 #' @param n numeric. Number of observations in the original data.
-#' @param n_var numeric. Number of variables to subset to build one tree.
+#' @param n_var numeric. Number of variables to randomly subset to build one tree.
 #' @param split character string. Can be "deviance" or "gini".
 #' @param control control object based on tree::tree.control() function from "tree" package.
 #'

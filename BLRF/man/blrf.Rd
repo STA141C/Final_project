@@ -32,7 +32,7 @@ blrf(
 
 \item{r}{numeric. Number of trees.}
 
-\item{n_var}{numeric. Number of variables to subset to build one tree.}
+\item{n_var}{numeric. Number of variables to randomly subset to build one tree.}
 
 \item{split}{character string. Can be "deviance" or "gini". Default to be "gini".}
 

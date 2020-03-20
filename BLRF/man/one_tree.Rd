@@ -13,7 +13,7 @@ one_tree(formula, subsample, weights, n_var, split, control)
 
 \item{weights}{list.}
 
-\item{n_var}{numeric. Number of variables to sample.}
+\item{n_var}{numeric. Number of variables to randomly subset to build one tree.}
 
 \item{split}{character string. Can be "deviance" or "gini".}
 

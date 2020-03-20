@@ -5,7 +5,7 @@
 #' @param formula an object of class "formula".
 #' @param subsample data.frame.
 #' @param weights list.
-#' @param n_var numeric. Number of variables to sample.
+#' @param n_var numeric. Number of variables to randomly subset to build one tree.
 #' @param split character string. Can be "deviance" or "gini".
 #' @param control control object based on tree::tree.control() function from "tree" package.
 #'

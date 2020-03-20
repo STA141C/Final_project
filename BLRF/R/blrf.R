@@ -10,7 +10,7 @@
 #' @param b numeric. An optional number of size of subsamples.
 #' @param s numeric. number of subsamples.
 #' @param r numeric. Number of trees.
-#' @param n_var numeric. Number of variables to subset to build one tree.
+#' @param n_var numeric. Number of variables to randomly subset to build one tree.
 #' @param split character string. Can be "deviance" or "gini". Default to be "gini".
 #' @param control control object based on tree::tree.control() function from "tree" package.
 #' Default set to call tree::tree.control(), ie, using default values from tree::tree.control()).
