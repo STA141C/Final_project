@@ -72,7 +72,7 @@ blrf <- function(formula, data, gamma, b = NULL, s, r, n_var, split = "gini",
 
     Trees <- purrr::flatten(Trees)
     }
-    }
+  }
 
   Tree_object <- list(Call = formula,
                       attrs = list(gamma = gamma, b = b, s = s, r = r,

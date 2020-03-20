@@ -53,7 +53,7 @@ implement_check_input <- function(x, y, formula, data, gamma, b, s, r, n_var, sp
     }
   }
 
-  if(!any(c("gini", "deviance") %in% split)) stop("`split` must be 'deviance' or 'gini'", call. = FALSE)
+  if(!(split %in% c("gini", "deviance"))) stop("`split` must be 'deviance' or 'gini'", call. = FALSE)
 
   if(split == "deviance") warning("'deviance' split may produce corrupt trees. Using to 'gini' if happens", call. = FALSE)
 
