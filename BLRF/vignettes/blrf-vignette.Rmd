@@ -5,6 +5,7 @@ vignette: >
   %\VignetteIndexEntry{Introduction to BLRF}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+author: Yujia Lu, Yating Ge, Yuqing Yang
 ---
 
 ```{r, include = FALSE}
@@ -36,8 +37,8 @@ library(BLRF)
 |`tree_implement()` | Build Little Random Forest (LRS) for one subsample          | LRS               |
 |`Confusion_one_tree()` | Calculate confusion matrix for each response variable for one tree| confusion_matrix|
 |`residual_ci()` | Calculate residual confidence interval for regression random forest| matrix |
-|`implement_check_input()` | Checking if all inputs are valid for function implement_BLRF.x| True or False|
-|`predict_check_input()` | Checking if all inputs are valid for function predict_blrf.| True or False|
+|`implement_check_input()` | Checking if all inputs are valid for function `blrf()`| True or False|
+|`predict_check_input()` | Checking if all inputs are valid for function `predict.blrf()`| True or False|
 
 
 ### 1.3 Fit little random forests `brlf()`
@@ -52,8 +53,8 @@ library(BLRF)
 | $\gamma$(gamma) | The user-defined sizing factor that determinses value of b | 
 | s               | Total number of Little Random Forests             | 
 | b               | Number of distinct observations in each Little Forest, $b = n^{\gamma}$| 
-| r               |Number of trees                    |
-| nvar            | Number of variables to subset to build one tree.  | 
+| r               | Number of trees                    |
+| nvar            | Number of variables(ramdonly subset) to subset to build one tree.  | 
 | split           | Can be "deviance" or "gini". Default to be "gini" | 
 | control          | tree::tree.control | 
 | core            | Number of core to used for parallel computing | 
@@ -77,7 +78,8 @@ library(BLRF)
 
 #### The following section describes how to use the library for random forest classification problem.
 
-* Load data set 'glass' for classification, sample 75% for train set and 25% for test set
+* Load data set 'glass' for classification, sample 75% for train set and 25% for test set  
+reference : https://www.kaggle.com/uciml/glass/kernels
 
 ```{r}
 ## load train data set and test data set for classification
@@ -148,6 +150,7 @@ result
 #### The following section describes how to apply this library for random forest regression  .
 
 * Load data set 'mortality' for regression, sample 75% for train set and 25% for test set
+* Mortality data set: the response variable (Mortality) was measured by the deaths per 100,000 population from all causes. Six independent variables were considered: annual precipitation, education, non-white, poverty, NOx and SO2. 
 
 ```{r}
 load("../tinydata/train_mortality_sample.Rda")
