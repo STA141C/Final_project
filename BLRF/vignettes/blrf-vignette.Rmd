@@ -78,7 +78,7 @@ library(BLRF)
 
 ### 1.5 Plot trees `print_trees()`  
 
-To understand trees well,we could apply 'print_trees()` function to get more features related to trees bulit in little random forests. This method enables to plot multiple trees with given the list/vector indexes of target trees in the blrf object.
+To understand trees well,we could apply `print_trees()` function to get more features related to trees bulit in little random forests. This method enables to plot multiple trees with given the list/vector indexes of target trees in the blrf object.
   
 
 ### 2.1 Example of Little Random Forest Classification
